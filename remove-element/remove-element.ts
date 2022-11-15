@@ -1,16 +1,20 @@
 function removeElement(nums: number[], val: number): number {
-    const length = nums.length - 1
-    let start = 0
-    let end = length
+    let startIndex = 0
+    let endIndex = nums.length - 1
     
-    while (end >= start) {
-        if (nums[start] === val) {
-            [nums[end], nums[start]] = [nums[start], nums[end]]
-            end--
+    while (startIndex <= endIndex) {
+        if (nums[startIndex] === val && nums[endIndex] !== val) {
+            [nums[startIndex], nums[endIndex]] = [nums[endIndex], nums[startIndex]]
+            startIndex++
+            endIndex--
+        } else if (nums[endIndex] === val) {
+            endIndex--
         } else {
-            start++
+            startIndex++
         }
     }
-
-    return start
+    
+    console.log(nums)
+    
+    return startIndex
 };
