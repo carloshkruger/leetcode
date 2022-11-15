@@ -13,7 +13,6 @@ function removeElement(nums: number[], val: number): number {
             break
         }
     }
-    console.log(nums)
     
     for (let i = 0; i <= length; i++) {
         if (nums[i] !== val) {
