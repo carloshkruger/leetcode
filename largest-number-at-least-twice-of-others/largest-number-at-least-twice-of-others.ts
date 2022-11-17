@@ -1,22 +1,19 @@
 function dominantIndex(nums: number[]): number {
-    const numsTwice = nums.map(num => num + num)
-
+    let maxIndex = 0
+    let maxValue = 0
+    
     for (let i = 0; i < nums.length; i++) {
-        let isBigger = true 
-        for (let j = 0; j < numsTwice.length; j++) {
-            if (j === i) {
-                continue
-            }
-            
-            if (numsTwice[j] > nums[i]) {
-                isBigger = false
-                break
-            }
-        }
-        if (isBigger) {
-            return i
+        if (nums[i] > maxValue) {
+            maxValue = nums[i]
+            maxIndex = i
         }
     }
     
-    return -1
+    for (let i = 0; i < nums.length; i++) {
+        if (i !== maxIndex && nums[i] + nums[i] > maxValue) {
+            return -1
+        }
+    }
+    
+    return maxIndex
 };
