@@ -8,11 +8,11 @@ function pivotIndex(nums: number[]): number {
     }
     
     for (let i = length - 1; i >= 0; i--) {
-        sumRight.push(nums[i+1] + (sumRight.at(-1) ?? 0))        
+        sumRight.unshift(nums[i+1] + (sumRight[0] ?? 0))        
     }
                           
     for (let i = 0; i <= length; i++) {
-        if (sumLeft[i] === sumRight.at((i*-1) - 1)) {
+        if (sumLeft[i] === sumRight[i]) {
             return i
         }
     }
