@@ -1,26 +1,19 @@
 function addBinary(a: string, b: string): string {
-    if (a.length > b.length) {     
-        const length = a.length - b.length
-        for (let i = 0; i < length; i++) {
-            b = `0${b}`
-        }
-    } else if (b.length > a.length) {     
-        const length = b.length - a.length
-        for (let i = 0; i < length; i++) {
-            a = `0${a}`
-        }
-    }
+    let aIndex = a.length - 1
+    let bIndex = b.length - 1
 
     const result = []
     let carry = 0
     
-    for (let i = a.length-1; i>=0 || (i === -1 && carry === 1); i--) {
-        const sum = (Number(a[i] ?? 0)) + (Number(b[i] ?? 0)) + carry
+    while (aIndex >= 0 || bIndex >= 0 || (aIndex < 0 && bIndex < 0 && carry === 1)) {
+        const sum = (Number(a[aIndex] ?? 0)) + (Number(b[bIndex] ?? 0)) + carry
 
         carry = sum === 2 || sum === 3 ? 1 : 0
 
         result.unshift(sum === 1 || sum === 3 ? 1 : 0)
+        aIndex--
+        bIndex--
     }
-    
+
     return result.join('')
 };
