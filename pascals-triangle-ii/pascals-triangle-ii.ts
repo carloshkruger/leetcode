@@ -1,8 +1,4 @@
-function getRow(rowIndex: number): number[] {
-    if (rowIndex === 0) {
-        return [1]
-    }
-    
+function getRow(rowIndex: number): number[] {   
     let currentRow = [1]
     
     for (let i = 1; i <= rowIndex; i++) {
