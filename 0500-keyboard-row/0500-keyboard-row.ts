@@ -5,36 +5,22 @@ function findWords(words: string[]): string[] {
     const answer = []
     
     for (let i = 0; i < words.length; i++) {
-        let isIncludedInFirstRow = false
-        let isIncludedInSecondtRow = false
-        let isIncludedInThirdRow = false
-        let isIncludedInMoreThanOneRow = false
+        let firstRowCount = 0
+        let secondRowCount = 0
+        let thirdRowCount = 0
         
         for (let j = 0; j < words[i].length; j++) {
-            if (firstRow.includes(words[i][j])) {
-                if (isIncludedInSecondtRow || isIncludedInThirdRow) {
-                    isIncludedInMoreThanOneRow = true
-                    break
-                }
-                isIncludedInFirstRow = true
-            }
-            if (secondRow.includes(words[i][j])) {
-                if (isIncludedInFirstRow || isIncludedInThirdRow) {
-                    isIncludedInMoreThanOneRow = true
-                    break
-                }
-                isIncludedInSecondtRow = true
-            }
-            if (thirdRow.includes(words[i][j])) {
-                if (isIncludedInFirstRow || isIncludedInSecondtRow) {
-                    isIncludedInMoreThanOneRow = true
-                    break
-                }
-                isIncludedInThirdRow = true
+            const currentLetter = words[i][j].toLowerCase()
+            if (firstRow.includes(currentLetter)) {
+                firstRowCount++
+            } else if (secondRow.includes(currentLetter)) {
+                secondRowCount++
+            } else if (thirdRow.includes(currentLetter)) {
+                thirdRowCount++
             }
         }
         
-        if (!isIncludedInMoreThanOneRow) {
+        if (firstRowCount === words[i].length || secondRowCount === words[i].length || thirdRowCount === words[i].length) {
            answer.push(words[i]) 
         }
     }
