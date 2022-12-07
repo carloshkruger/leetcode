@@ -3,11 +3,16 @@ function canPlaceFlowers(flowerbed: number[], n: number): boolean {
         return true
     }
     
+    let lastIndexHasFlower = false
+    
     for (let i = 0; i < flowerbed.length; i++) {
-        if (flowerbed[i] === 0 && (flowerbed[i-1] ?? 0) === 0 && (flowerbed[i+1] ?? 0) === 0) {
+        if (flowerbed[i] === 0 && !lastIndexHasFlower && (flowerbed[i-1] ?? 0) === 0 && (flowerbed[i+1] ?? 0) === 0) {
             n--
-            flowerbed[i] = 1
+            lastIndexHasFlower = true
+        } else {
+            lastIndexHasFlower = false
         }
+
         if (n === 0) {
             break
         }
