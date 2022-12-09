@@ -1,5 +1,5 @@
 class MyHashSet {
-    private list: number[] = [];
+    private list: {[key: number]: boolean} = {}
     
     constructor() {
 
@@ -7,16 +7,16 @@ class MyHashSet {
 
     add(key: number): void {
         if (!this.contains(key)) {
-            this.list.push(key)
+            this.list[key] = true
         }
     }
 
     remove(key: number): void {
-        this.list = this.list.filter(value => value !== key)
+        delete this.list[key]
     }
 
     contains(key: number): boolean {
-        return this.list.includes(key)
+        return !!this.list[key]
     }
 }
 
