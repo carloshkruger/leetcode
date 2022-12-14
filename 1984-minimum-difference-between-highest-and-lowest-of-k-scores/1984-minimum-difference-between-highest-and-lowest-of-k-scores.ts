@@ -12,7 +12,7 @@ function minimumDifference(nums: number[], k: number): number {
         currentSubArray.push(nums[i])
         
         if (currentSubArray.length === k) {
-            minimunValue = Math.min(minimunValue, (Math.max(...currentSubArray) - Math.min(...currentSubArray)))
+            minimunValue = Math.min(minimunValue, (currentSubArray.at(-1) - currentSubArray[0]))
 
             if (minimunValue === 0) {
                 return minimunValue
