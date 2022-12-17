@@ -1,12 +1,12 @@
 function numJewelsInStones(jewels: string, stones: string): number {
-    const stonesMap = new Map()
+    const jewelsMap = new Map()
     let answer = 0
-    for (const stone of stones) {
-        stonesMap.set(stone, (stonesMap.get(stone) ?? 0) + 1)
-    }
     for (const jewel of jewels) {
-        if (stonesMap.has(jewel)) {
-            answer += stonesMap.get(jewel)
+        jewelsMap.set(jewel, true)
+    }
+    for (const stone of stones) {
+        if (jewelsMap.has(stone)) {
+            answer++
         }
     }
     return answer
