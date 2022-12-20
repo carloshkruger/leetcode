@@ -14,41 +14,17 @@ function intToRoman(num: number): string {
         900: 'CM',
         1000: 'M'
     }
-    const numbers = breakNumber(num)
-    const keys = Object.keys(map).reverse().map(Number)
+
+    const numbers = Object.keys(map).reverse().map(Number)
+
     let answer = ''
-    
+
     for (let number of numbers) {
-        if (map[number]) {
+        while (number <= num) {
             answer += map[number]
-        } else {
-            while (number > 0) {
-                for (const key of keys) {
-                    if (number >= key) {
-                        number -= key
-                        answer += map[key]
-                        break
-                    }
-                }
-            }
+            num -= number
         }
     }
     
     return answer
 };
-
-function breakNumber(num: number): number[] {
-    const list: number[] = []
-    let factor = 1
-    
-    while (num > 0) {
-        const value = (num % 10) * factor
-        if (value > 0) {
-            list.unshift(value)
-        }
-        num = Math.floor(num / 10)
-        factor *= 10
-    }
-    
-    return list
-}
