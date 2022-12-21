@@ -1,5 +1,5 @@
 function numUniqueEmails(emails: string[]): number {
-    const emailsAlreadySentList = new Set()
+    const emailsAlreadySentList = new Map()
     let answer = 0
     
     for (const email of emails) {
@@ -15,7 +15,7 @@ function numUniqueEmails(emails: string[]): number {
         const newEmail = `${localName}@${domainName}`
         
         if (!emailsAlreadySentList.has(newEmail)) {
-            emailsAlreadySentList.add(newEmail)
+            emailsAlreadySentList.set(newEmail, true)
             answer++
         }
     }
