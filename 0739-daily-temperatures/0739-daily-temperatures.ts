@@ -4,7 +4,6 @@ function dailyTemperatures(temperatures: number[]): number[] {
 
     for (let i = temperatures.length - 1; i >= 0; i--) {
         let currentTemperature = temperatures[i]
-        let elementsPopped = []
         let poppedElementCount = 0
         let stackSize = stack.length
         while (stack.length && currentTemperature >= stack.at(-1).value) {
