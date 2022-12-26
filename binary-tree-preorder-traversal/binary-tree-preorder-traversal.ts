@@ -18,18 +18,18 @@ function preorderTraversal(root: TreeNode | null): number[] {
     }
     
     const nums: number[] = []
+    const stack = [root]
     
-    function helper(tree: TreeNode) {
-        nums.push(tree.val)
-        if (tree.left) {
-            helper(tree.left)
+    while (stack.length) {
+        const node = stack.pop()
+        nums.push(node.val)
+        if (node.right) {
+            stack.push(node.right)
         }
-        if (tree.right) {
-            helper(tree.right)
+        if (node.left) {
+            stack.push(node.left)
         }
     }
-    
-    helper(root)
     
     return nums
 };
