@@ -19,22 +19,17 @@ function inorderTraversal(root: TreeNode | null): number[] {
     
     const nums = []
     const stack = []
-    let done = false
     let current = root
     
-    while (!done) {
-        if (current) {
+    while (current || stack.length) {
+        while (current) {
             stack.push(current)
             current = current.left
-        } else {
-            if (stack.length) {
-                current = stack.pop()
-                nums.push(current.val)
-                current = current.right
-            } else {
-                done = true
-            }
         }
+        
+        const node = stack.pop()
+        nums.push(node.val)
+        current = node.right
     }
     
     return nums
