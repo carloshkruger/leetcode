@@ -1,6 +1,7 @@
 function dailyTemperatures(temperatures: number[]): number[] {
     const stack = []
-    const answer = []
+    const answer = new Array(temperatures.length)
+    let answerIndex = temperatures.length - 1
 
     for (let i = temperatures.length - 1; i >= 0; i--) {
         let currentTemperature = temperatures[i]
@@ -11,13 +12,14 @@ function dailyTemperatures(temperatures: number[]): number[] {
             poppedElementCount++
         }
         if (stackSize === poppedElementCount) {
-            answer.unshift(0)
+            answer[answerIndex] = 0
         } else if (stackSize === stack.length) {
-            answer.unshift(1)
+            answer[answerIndex] = 1
         } else {
-            answer.unshift(stack.at(-1).index - i)
+            answer[answerIndex] = stack.at(-1).index - i
         }
         stack.push({value: currentTemperature, index: i})
+        answerIndex--
     }
 
     return answer
