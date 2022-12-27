@@ -1,40 +1,41 @@
 class MyQueue {
-    private list: number[] = []
+    private stack: number[] = []
+    private auxStack: number[] = []
     
     constructor() {
 
     }
 
     push(x: number): void {
-        this.list.push(x)
+        this.stack.push(x)
     }
 
     pop(): number {
-        const auxStack: number[] = []
-        while(this.list.length) {
-            auxStack.push(this.list.pop())
+        if (this.auxStack.length) {
+            return this.auxStack.pop()
         }
-        const elementToReturn = auxStack.pop()
-        while(auxStack.length) {
-            this.list.push(auxStack.pop())
+        
+        while(this.stack.length) {
+            this.auxStack.push(this.stack.pop())
         }
-        return elementToReturn
+
+        return this.auxStack.pop()
     }
 
     peek(): number {
-        const auxStack: number[] = []
-        while(this.list.length) {
-            auxStack.push(this.list.pop())
+        if (this.auxStack.length) {
+            return this.auxStack.at(-1)
         }
-        const elementToReturn = auxStack.at(-1)
-        while(auxStack.length) {
-            this.list.push(auxStack.pop())
+
+        while(this.stack.length) {
+            this.auxStack.push(this.stack.pop())
         }
-        return elementToReturn
+
+        return this.auxStack.at(-1)
     }
 
     empty(): boolean {
-        return this.list.length === 0
+        return this.stack.length === 0 && this.auxStack.length === 0
     }
 }
 
