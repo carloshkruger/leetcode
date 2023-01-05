@@ -9,9 +9,7 @@ function myPow(x: number, n: number): number {
         
         
         const restMultiplier = n % 2 === 0 ? 1 : x
-        n = Math.floor(n / 2)
-        
-        const result = helper(x, n)
+        const result = helper(x, Math.floor(n / 2))
         return result * result * restMultiplier
     }
     
