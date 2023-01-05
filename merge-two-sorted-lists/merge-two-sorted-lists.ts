@@ -14,22 +14,27 @@ function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode
     const finalList = new ListNode()
     let finalListTail = finalList
     
-    while (list1 && list2) {
-        if (list1.val < list2.val) {
-            finalListTail.next = list1
-            list1 = list1.next
-        } else {
-            finalListTail.next = list2
-            list2 = list2.next
+    function helper(list1: ListNode | null, list2: ListNode | null, finalListTail: ListNode | null): void {
+        if (!list1 && !list2) {
+            return
         }
-        finalListTail = finalListTail.next
+        if (list1 && list2) {
+            if (list1.val < list2.val) {
+                finalListTail.next = list1
+                return helper(list1.next, list2, finalListTail.next)
+            }
+            finalListTail.next = list2
+            return helper(list1, list2.next, finalListTail.next)
+        }
+        if (list1) {
+            finalListTail.next = list1
+        } else if (list2) {
+            finalListTail.next = list2
+        }
+        return
     }
     
-    if (list1) {
-        finalListTail.next = list1
-    } else if (list2) {
-        finalListTail.next = list2
-    }
-    
+    helper(list1, list2, finalListTail)
+
     return finalList.next
 };
