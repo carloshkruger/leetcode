@@ -18,7 +18,7 @@ function mySqrt(x: number): number {
         } else {
             start = middle
         }
-        if (parseInt(start+'') === parseInt(end+'')) {
+        if (Math.floor(start) === Math.floor(end)) {
             return Math.floor(start)
         }
     }
