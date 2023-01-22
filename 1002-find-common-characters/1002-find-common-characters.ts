@@ -10,12 +10,11 @@ function commonChars(words: string[]): string[] {
         for (const letter of words[i]) {
             currentWordMap.set(letter, (currentWordMap.get(letter) ?? 0) + 1)
         }
-        const entries = wordMap.entries()
-        for (const [key,value] of entries) {
+        for (const key of wordMap.keys()) {
             if (!currentWordMap.has(key)) {
                 wordMap.delete(key)
-            } else if (currentWordMap.get(key) !== value) {
-                wordMap.set(key, Math.min(currentWordMap.get(key), value))
+            } else if (currentWordMap.get(key) !== wordMap.get(key)) {
+                wordMap.set(key, Math.min(currentWordMap.get(key), wordMap.get(key)))
             }
         }
     }
