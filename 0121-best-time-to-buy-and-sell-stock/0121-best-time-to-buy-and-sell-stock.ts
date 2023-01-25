@@ -1,13 +1,13 @@
 function maxProfit(prices: number[]): number {   
     let maxProfitValue = 0
-    let slowRunner = 0
+    let buyIndex = 0
     
-    for (let i = 1; i < prices.length; i++) {
-        if (prices[i] <= prices[slowRunner]) {
-            slowRunner = i
+    for (let sellIndex = 1; sellIndex < prices.length; sellIndex++) {
+        if (prices[sellIndex] <= prices[buyIndex]) {
+            buyIndex = sellIndex
         }
         
-        const currentProfit = prices[i] - prices[slowRunner]
+        const currentProfit = prices[sellIndex] - prices[buyIndex]
         
         maxProfitValue = Math.max(maxProfitValue, currentProfit)
     }
