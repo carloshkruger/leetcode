@@ -1,20 +1,16 @@
 function lengthOfLongestSubstring(s: string): number {
-    const hashMap = new Map()
-    let queue = []
+    const set = new Set()
+    let leftIndex = 0
     let longestSubstringLength = 0
     
-    for (let i = 0; i < s.length; i++) {
-        if (hashMap.has(s[i])) {
-            longestSubstringLength = Math.max(longestSubstringLength, hashMap.size)
-            
-            while (queue.length && queue[0] !== s[i]) {
-                hashMap.delete(queue.shift())
-            }
-            queue.shift()
+    for (const letter of s) {
+        while (set.has(letter)) {
+            set.delete(s[leftIndex])
+            leftIndex++
         }
-        hashMap.set(s[i], i)
-        queue.push(s[i])
+        set.add(letter)
+        longestSubstringLength = Math.max(longestSubstringLength, set.size)
     }
     
-    return Math.max(longestSubstringLength, hashMap.size)
+    return longestSubstringLength
 }
