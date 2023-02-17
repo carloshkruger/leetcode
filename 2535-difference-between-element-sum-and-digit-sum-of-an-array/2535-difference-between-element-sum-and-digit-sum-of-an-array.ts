@@ -4,7 +4,14 @@ function differenceOfSum(nums: number[]): number {
     
     for (const num of nums) {
         elementSum += num
-        digitSum += num.toString().split('').reduce((a,b) => a + Number(b), 0)
+        
+        let currentValue = num
+        
+        while (currentValue > 0) {
+            const digit = currentValue % 10
+            digitSum += digit
+            currentValue = Math.floor(currentValue / 10)
+        }
     }
     
     return elementSum - digitSum
