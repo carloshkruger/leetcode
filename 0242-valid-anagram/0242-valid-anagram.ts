@@ -1,24 +1,18 @@
 function isAnagram(s: string, t: string): boolean {
-    if (s.length !== t.length) {
-        return false
-    }
-    
-    const sMap = new Map()
+    const hashMap = new Map()
     for (const letter of s) {
-        sMap.set(letter, (sMap.get(letter) ?? 0) + 1)
+        hashMap.set(letter, (hashMap.get(letter) || 0) + 1)
     }
     for (const letter of t) {
-        if (!sMap.has(letter) || sMap.get(letter) === 0) {
+        if (!hashMap.has(letter) || hashMap.get(letter) === 0) {
             return false
         }
-        sMap.set(letter, sMap.get(letter) - 1)
+        hashMap.set(letter, hashMap.get(letter) - 1)
     }
-    
-    for (const count of sMap.values()) {
-        if (count !== 0) {
+    for (const value of hashMap.values()) {
+        if (value !== 0) {
             return false
         }
     }
-        
     return true
 };
