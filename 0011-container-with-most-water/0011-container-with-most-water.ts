@@ -1,20 +1,21 @@
 function maxArea(height: number[]): number {
-    let maxAmount = 0
-    let start = 0
-    let end = height.length - 1
+    let maximum = 0
+    let leftIndex = 0
+    let rightIndex = height.length - 1
     
-    while (start < end) {
-        const minHeight = Math.min(height[start], height[end])
-        const amount = (end - start) * minHeight
+    while (leftIndex < rightIndex) {
+        const lowestHeight = Math.min(height[leftIndex], height[rightIndex])
+        const distance = rightIndex - leftIndex
+        const amountOfWater = distance * lowestHeight
         
-        maxAmount = Math.max(maxAmount, amount)
+        maximum = Math.max(maximum, amountOfWater)
         
-        if (height[start] < height[end]) {
-            start++
+        if (height[leftIndex] < height[rightIndex]) {
+            leftIndex++
         } else {
-            end--
+            rightIndex--
         }
     }
     
-    return maxAmount
+    return maximum
 };
