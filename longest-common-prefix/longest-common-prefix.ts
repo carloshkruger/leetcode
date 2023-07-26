@@ -1,16 +1,28 @@
 function longestCommonPrefix(strs: string[]): string {
-    let result = ''
-    for (const letter of strs[0]) {
-        let isCommonPrefix = true
-        for (const word of strs) {
-            if (!word.startsWith(result+letter)) {
-                isCommonPrefix = false
+    let smallestWord = strs[0]
+    
+    for (const str of strs) {
+        if (str.length < smallestWord.length) {
+            smallestWord = str
+        }
+    }
+    
+    let commonPrefix = ''
+    
+    for (let i = 0; i < smallestWord.length; i++) {
+        let hasCommonPrefix = true
+        for (const str of strs) {
+            if (str[i] !== smallestWord[i]) {
+                hasCommonPrefix = false
                 break
             }
         }
-        if (isCommonPrefix) {
-            result += letter
+        if (!hasCommonPrefix) {
+            break
+        } else {
+            commonPrefix += smallestWord[i]
         }
     }
-    return result
+    
+    return commonPrefix
 };
