@@ -4,10 +4,9 @@ function longestPalindrome(s: string): number {
         hashTable.set(letter, (hashTable.get(letter) ?? 0) + 1)
     }
     let answer = 0
-    const sumOrdered = [...hashTable.entries()].sort((a,b) => b[1] - a[1]).map(a => a[1])
     let oddAlreadyUsed = false
     
-    for (const sum of sumOrdered) {
+    for (const sum of hashTable.values()) {
         if (sum % 2 === 0) {
             answer += sum
         } else if (!oddAlreadyUsed) {
