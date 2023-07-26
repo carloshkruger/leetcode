@@ -1,24 +1,21 @@
 function longestPalindrome(s: string): number {
-    const map = new Map()
-    
+    const hashTable = new Map()
     for (const letter of s) {
-        map.set(letter, (map.get(letter) ?? 0) + 1)
+        hashTable.set(letter, (hashTable.get(letter) ?? 0) + 1)
     }
-                
     let answer = 0
-    let hasOddValue = false
-
-    for (const value of map.values()) {
-        if (value % 2 === 0) {
-            answer += value
+    const sumOrdered = [...hashTable.entries()].sort((a,b) => b[1] - a[1]).map(a => a[1])
+    let oddAlreadyUsed = false
+    
+    for (const sum of sumOrdered) {
+        if (sum % 2 === 0) {
+            answer += sum
+        } else if (!oddAlreadyUsed) {
+            answer += sum
+            oddAlreadyUsed = true   
         } else {
-            answer += (value - 1)
-            hasOddValue = true
+            answer += sum - 1
         }
-    }
-        
-    if (hasOddValue) {
-        answer++
     }
         
     return answer
