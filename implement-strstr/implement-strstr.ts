@@ -1,7 +1,12 @@
 function strStr(haystack: string, needle: string): number {
-    const length = haystack.length - needle.length
+    if (needle.length > haystack.length) {
+        return -1
+    }
+    if (needle.length === haystack.length && needle !== haystack) {
+        return -1
+    }
     
-    for (let i = 0; i <= length; i++) {
+    for (let i = 0; i < haystack.length; i++) {
         let found = true
         for (let j = 0; j < needle.length; j++) {
             if (needle[j] !== haystack[i+j]) {
@@ -13,5 +18,6 @@ function strStr(haystack: string, needle: string): number {
             return i
         }
     }
+    
     return -1
 };
