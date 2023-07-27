@@ -6,9 +6,7 @@ function reverseString(s: string[]): void {
     let rightIndex = s.length - 1
     
     while (leftIndex < rightIndex) {
-        const temp = s[rightIndex]
-        s[rightIndex] = s[leftIndex]
-        s[leftIndex] = temp
+        [s[rightIndex], s[leftIndex]] = [s[leftIndex], s[rightIndex]]
         leftIndex++
         rightIndex--
     }
