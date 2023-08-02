@@ -8,4 +8,5 @@ select salesperson.name
       join company
         on company.com_id = orders.com_id
      where company.name = "RED"
+  group by sales_id
  )
