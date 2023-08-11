@@ -11,14 +11,19 @@
  */
 
 function middleNode(head: ListNode | null): ListNode | null {
-    const list = []
+    let count = 0
     let currentNode = head
 
     while (currentNode) {
-        list.push(currentNode)
+        count++
         currentNode = currentNode.next
     }
 
-    const middleIndex = Math.floor(list.length / 2)
-    return list[middleIndex]
+    const middleIndex = Math.floor(count / 2)
+
+    currentNode = head
+    for (let i = 0; i < middleIndex; i++) {
+        currentNode = currentNode.next
+    }
+    return currentNode
 };
