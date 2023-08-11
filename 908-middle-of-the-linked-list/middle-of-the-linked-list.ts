@@ -11,19 +11,13 @@
  */
 
 function middleNode(head: ListNode | null): ListNode | null {
-    let count = 0
-    let currentNode = head
+    let fasterNode = head
+    let slowerNode = head
 
-    while (currentNode) {
-        count++
-        currentNode = currentNode.next
+    while (fasterNode && fasterNode.next) {
+        slowerNode = slowerNode.next
+        fasterNode = fasterNode.next.next
     }
 
-    const middleIndex = Math.floor(count / 2)
-
-    currentNode = head
-    for (let i = 0; i < middleIndex; i++) {
-        currentNode = currentNode.next
-    }
-    return currentNode
+    return slowerNode
 };
