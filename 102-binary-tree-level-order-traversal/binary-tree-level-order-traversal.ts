@@ -17,14 +17,14 @@ function levelOrder(root: TreeNode | null): number[][] {
         return []
     }
 
-    const answer = new Map()
+    const answer = []
     const queue = [{ node: root, level: 0 }]
     
     while (queue.length) {
         const current = queue.shift()
-        const levelList = answer.get(current.level) ?? []
+        const levelList = answer[current.level] ?? []
         levelList.push(current.node.val)
-        answer.set(current.level, levelList)
+        answer[current.level] = levelList
 
         if (current.node.left) {
             queue.push({ node: current.node.left, level: current.level + 1 })
@@ -34,5 +34,5 @@ function levelOrder(root: TreeNode | null): number[][] {
         }
     }
 
-    return [...answer.values()]
+    return answer
 };
