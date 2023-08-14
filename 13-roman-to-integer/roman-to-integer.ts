@@ -20,32 +20,9 @@ function romanToInt(s: string): number {
     while (index < s.length) {
         const current = s[index]
         const next = s[index + 1]
-        if (current === 'I') {
-            if (next !== 'V' && next !== 'X') {
-                answer += map[current]
-            } else {
-                answer += map[current+next]
-                index++
-            }
-        } else if (current === 'X') {
-            if (next !== 'L' && next !== 'C') {
-                answer += map[current]
-            } else {
-                answer += map[current+next]
-                index++
-            } 
-        } else if (current === 'C') {
-            if (next !== 'D' && next !== 'M') {
-                answer += map[current]
-            } else {
-                answer += map[current+next]
-                index++
-            } 
-        } else {
-            answer += map[current]
-        }
-
-        index++
+        const chars = map[current+next] ? current+next : current
+        answer += map[chars]
+        index += chars.length
     }
 
     return answer
