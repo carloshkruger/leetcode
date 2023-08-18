@@ -1,30 +1,29 @@
 function floodFill(image: number[][], sr: number, sc: number, color: number): number[][] {
-    const queue = [{ sr, sc }]
     const originalColor = image[sr][sc]
     const visited = new Set()
 
-    while (queue.length) {
-        const { sr, sc } = queue.shift()
-
-        const isOutOfBounds = image[sr]?.[sc] === undefined
+    function helper(row: number, col: number) {
+        const isOutOfBounds = image[row]?.[col] === undefined
         if (isOutOfBounds) {
-            continue
+            return
         }
-        if (image[sr][sc] !== originalColor) {
-            continue
+        if (image[row][col] !== originalColor) {
+            return
         }
-        if (visited.has(`${sr},${sc}`)) {
-            continue
+        const key = `${row},${col}`
+        if (visited.has(key)) {
+            return
         }
+        visited.add(key)
+        image[row][col] = color
 
-        visited.add(`${sr},${sc}`)
-        image[sr][sc] = color
-
-        queue.push({ sr: sr+1, sc })
-        queue.push({ sr: sr-1, sc })
-        queue.push({ sr, sc: sc+1 })
-        queue.push({ sr, sc: sc-1 })
+        helper(row + 1, col)
+        helper(row - 1, col)
+        helper(row, col + 1)
+        helper(row, col - 1)
     }
+
+    helper(sr, sc)
 
     return image
 };
