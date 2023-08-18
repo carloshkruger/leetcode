@@ -1,6 +1,6 @@
 function orangesRotting(grid: number[][]): number {
     const visited = new Set()
-    const queue = findAllRottenOranges(grid)
+    let { rotten: queue, freshCount } = findAllRottenOrangesAndFreshCount(grid)
 
     let minutes = 0
 
@@ -16,31 +16,31 @@ function orangesRotting(grid: number[][]): number {
                 queue.push([row+i, col+j, distance+1])
                 visited.add(key)
                 minutes = Math.max(minutes, distance+1)
+                freshCount--
             }
         }
     }
 
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[0].length; j++) {
-            if (grid[i][j] === 1 && !visited.has(`${i},${j}`)) {
-                return -1
-            }
-        }
+    if (freshCount > 0) {
+        return -1
     }
 
     return minutes
 };
 
-function findAllRottenOranges(grid: number[][]): number[][] {
+function findAllRottenOrangesAndFreshCount(grid: number[][]): { rotten: number[][], freshCount: number} {
     const rotten = []
+    let freshCount = 0
 
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[0].length; j++) {
             if (grid[i][j] === 2) {
                 rotten.push([i, j, 0])
+            } else if (grid[i][j] === 1) {
+                freshCount++
             }
         }
     }
 
-    return rotten
+    return { rotten, freshCount }
 }
