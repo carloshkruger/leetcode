@@ -13,17 +13,14 @@
  */
 
 function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
-    let current = root
-
-    while (current) {
-        if (p.val > current.val && q.val > current.val) {
-            current = current.right
-        } else if (p.val < current.val && q.val < current.val) {
-            current = current.left
-        } else {
-            return current
-        }
+    if (!root) {
+        return null
     }
-
-    return null
+    if (p.val > root.val && q.val > root.val) {
+        return lowestCommonAncestor(root.right, p, q)
+    }
+    if (p.val < root.val && q.val < root.val) {
+        return lowestCommonAncestor(root.left, p, q)
+    }
+    return root
 };
