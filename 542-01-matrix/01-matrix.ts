@@ -16,9 +16,10 @@ function updateMatrix(mat: number[][]): number[][] {
     }
 
     const directions = [[-1,0], [1,0], [0,1], [0,-1]]
+    let i = 0
 
-    while (queue.length) {
-        const { row, col } = queue.shift()
+    while (i <= queue.length - 1) {
+        const { row, col } = queue[i++]
         const newNeighborValue = answer[row][col] + 1
 
         for (const direction of directions) {
