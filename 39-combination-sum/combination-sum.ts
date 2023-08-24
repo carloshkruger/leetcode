@@ -6,7 +6,11 @@ function combinationSum(candidates: number[], target: number): number[][] {
     }
 
     function sum(nums: number[]): number {
-        return nums.reduce((acc,current) => acc+current, 0)
+        let totalSum = 0
+        for (let i = 0; i < nums.length; i++) {
+            totalSum += nums[i]
+        }
+        return totalSum
     }
 
     function getCandidates(state: number[]): number[] {
@@ -20,19 +24,19 @@ function combinationSum(candidates: number[], target: number): number[][] {
         return validCandidates
     }
 
-    function backtracking(state: number[]) {
+    function backtrack(state: number[]) {
         if (isValidState(state)) {
             answer.add([...state].sort((a,b) => a-b).join('-'))
             return
         }
         for (const validCandidate of getCandidates(state)) {
             state.push(validCandidate)
-            backtracking(state)
+            backtrack(state)
             state.pop()
         }
     }
 
-    backtracking([])
+    backtrack([])
 
     return [...answer.values()].map(item => item.split('-').map(Number))
 };
