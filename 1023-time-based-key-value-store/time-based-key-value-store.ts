@@ -20,7 +20,6 @@ class TimeMap {
       }
 
       const timestampList = this.timestamps.get(key)
-      let correctTimestamp = null
       let start = 0
       let end = timestampList.length - 1
 
@@ -36,11 +35,7 @@ class TimeMap {
       }
 
       if (timestampList[end] < timestamp) {
-        correctTimestamp = timestampList[end]
-      }
-
-      if (correctTimestamp) {
-        return this.data.get(`${key}-${correctTimestamp}`)
+        return this.data.get(`${key}-${timestampList[end]}`)
       }
 
       return ''
