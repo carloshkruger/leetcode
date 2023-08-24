@@ -2,10 +2,6 @@ class TimeMap {
     private data = new Map()
     private timestamps = new Map()
 
-    constructor() {
-
-    }
-
     set(key: string, value: string, timestamp: number): void {
       this.data.set(`${key}-${timestamp}`, value)
 
@@ -25,13 +21,22 @@ class TimeMap {
 
       const timestampList = this.timestamps.get(key)
       let correctTimestamp = null
+      let start = 0
+      let end = timestampList.length - 1
 
-      for (let i = 0; i < timestampList.length; i++) {
-        if (timestamp > timestampList[i]) {
-          correctTimestamp = timestampList[i] 
+      while (start <= end) {
+        const middleIndex = Math.floor((start + end) / 2)
+        const middleValue = timestampList[middleIndex]
+
+        if (middleValue > timestamp) {
+          end = middleIndex - 1
         } else {
-          break
+          start = middleIndex + 1
         }
+      }
+
+      if (timestampList[end] < timestamp) {
+        correctTimestamp = timestampList[end]
       }
 
       if (correctTimestamp) {
