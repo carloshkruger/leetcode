@@ -3,7 +3,7 @@ function permute(nums: number[]): number[][] {
 
     function backtrack(current: number[]) {
         if (current.length === nums.length) {
-            answer.push([...current])
+            answer.push(current)
             return
         }
 
