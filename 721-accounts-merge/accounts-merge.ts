@@ -22,22 +22,26 @@ function accountsMerge(accounts: string[][]): string[][] {
     }
   }
 
+  const traverse = (email: string, list: string[]) => {
+    if (visited.has(email)) {
+      return
+    }
+    visited.add(email)
+    list.push(email)
+
+    for (const neighbor of graph[email]) {
+      traverse(neighbor, list)
+    }
+  }
+
   const answer = []
   const visited = new Set()
+  
   for (const key in graph) {
     const list = []
-    const seek = (email: string) => {
-      if (visited.has(email)) {
-        return
-      }
-      visited.add(email)
-      list.push(email)
 
-      for (const neighbor of graph[email]) {
-        seek(neighbor)
-      }
-    }
-    seek(key)
+    traverse(key, list)
+  
     if (list.length) {
       list.sort()
       list.unshift(owner[key])
