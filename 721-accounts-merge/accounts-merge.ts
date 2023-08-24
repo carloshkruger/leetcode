@@ -36,7 +36,7 @@ function accountsMerge(accounts: string[][]): string[][] {
 
   const answer = []
   const visited = new Set()
-  
+
   for (const key in graph) {
     const list = []
 
@@ -44,8 +44,7 @@ function accountsMerge(accounts: string[][]): string[][] {
   
     if (list.length) {
       list.sort()
-      list.unshift(owner[key])
-      answer.push(list)
+      answer.push([owner[key], ...list])
     }
   }
 
