@@ -1,42 +1,23 @@
 function combinationSum(candidates: number[], target: number): number[][] {
-    const answer = new Set<string>()
+    const answer = []
 
-    function isValidState(state: number[]): boolean {
-        return sum(state) === target
-    }
-
-    function sum(nums: number[]): number {
-        let totalSum = 0
-        for (let i = 0; i < nums.length; i++) {
-            totalSum += nums[i]
-        }
-        return totalSum
-    }
-
-    function getCandidates(state: number[]): number[] {
-        const totalSum = sum(state)
-        const validCandidates = []
-        for (const candidate of candidates) {
-            if (totalSum+candidate <= target) {
-                validCandidates.push(candidate)
-            }
-        }
-        return validCandidates
-    }
-
-    function backtrack(state: number[]) {
-        if (isValidState(state)) {
-            answer.add([...state].sort((a,b) => a-b).join('-'))
+    function backtrack(state: number[], sum: number, index: number): void {
+        if (sum === target) {
+            answer.push([...state])
             return
         }
-        for (const validCandidate of getCandidates(state)) {
-            state.push(validCandidate)
-            backtrack(state)
-            state.pop()
+
+        if (sum > target || index >= candidates.length) {
+            return
         }
+
+        state.push(candidates[index])
+        backtrack(state, sum + candidates[index], index)
+        state.pop()
+        backtrack(state, sum, index + 1)
     }
 
-    backtrack([])
+    backtrack([], 0, 0)
 
-    return [...answer.values()].map(item => item.split('-').map(Number))
+    return answer
 };
