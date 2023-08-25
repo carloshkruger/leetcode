@@ -6,34 +6,29 @@ function spiralOrder(matrix: number[][]): number[] {
   
   const answer = []
   const matrixLength = matrix.length * matrix[0].length
-  let count = 0
 
-  while (count < matrixLength) {
+  while (answer.length < matrixLength) {
     // right
-    for (let i = left; i <= right && count < matrixLength; i++) {
+    for (let i = left; i <= right && answer.length < matrixLength; i++) {
       answer.push(matrix[top][i])
-      count++
     }
     top++
 
     // bottom
-    for (let i = top; i <= bottom && count < matrixLength; i++) {
+    for (let i = top; i <= bottom && answer.length < matrixLength; i++) {
       answer.push(matrix[i][right])
-      count++
     }
     right--
 
     // left
-    for (let i = right; i >= left && count < matrixLength; i--) {
+    for (let i = right; i >= left && answer.length < matrixLength; i--) {
       answer.push(matrix[bottom][i])
-      count++
     }
     bottom--
 
     // up
-    for (let i = bottom; i >= top && count < matrixLength; i--) {
+    for (let i = bottom; i >= top && answer.length < matrixLength; i--) {
       answer.push(matrix[i][left])
-      count++
     }
     left++
   }
