@@ -27,12 +27,13 @@ function isValidSudoku(board: string[][]): boolean {
       hashColumns.set(j, columnList)
 
       const subBoxCol = Math.floor(j / 3)
-      const subBoxList = hashSubBoxes.get(`${subBoxRow}-${subBoxCol}`) ?? new Set()
+      const subBoxKey = `${subBoxRow}-${subBoxCol}`
+      const subBoxList = hashSubBoxes.get(subBoxKey) ?? new Set()
       if (subBoxList.has(board[i][j])) {
         return false
       }
       subBoxList.add(board[i][j])
-      hashSubBoxes.set(`${subBoxRow}-${subBoxCol}`, subBoxList)
+      hashSubBoxes.set(subBoxKey, subBoxList)
     }
   }
 
