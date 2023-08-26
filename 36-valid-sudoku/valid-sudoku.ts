@@ -1,39 +1,33 @@
 function isValidSudoku(board: string[][]): boolean {
-  const hashColumns = new Map()
-  const hashSubBoxes = new Map()
+  const hashColumns = new Set()
+  const hashSubBoxes = new Set()
 
   for (let i = 0; i < board.length; i++) {
-    const hashRow = new Map()
-    hashRow.set(i, new Set())
+    const hashRow = new Set()
     const subBoxRow = Math.floor(i / 3)
 
     for (let j = 0; j < board[i].length; j++) {
-      if (board[i][j] === '.') {
+      const currentValue = board[i][j]
+      if (currentValue === '.') {
         continue
       }
 
-      const rowList = hashRow.get(i)
-      if (rowList.has(board[i][j])) {
+      if (hashRow.has(`${i}-${currentValue}`)) {
         return false
       }
-      rowList.add(board[i][j])
-      hashRow.set(i, rowList)
+      hashRow.add(`${i}-${currentValue}`)
 
-      const columnList = hashColumns.get(j) ?? new Set()
-      if (columnList.has(board[i][j])) {
+      if (hashColumns.has(`${j}-${currentValue}`)) {
         return false
       }
-      columnList.add(board[i][j])
-      hashColumns.set(j, columnList)
+      hashColumns.add(`${j}-${currentValue}`)
 
       const subBoxCol = Math.floor(j / 3)
-      const subBoxKey = `${subBoxRow}-${subBoxCol}`
-      const subBoxList = hashSubBoxes.get(subBoxKey) ?? new Set()
-      if (subBoxList.has(board[i][j])) {
+      const subBoxKey = `${subBoxRow}-${subBoxCol}-${currentValue}`
+      if (hashSubBoxes.has(subBoxKey)) {
         return false
       }
-      subBoxList.add(board[i][j])
-      hashSubBoxes.set(subBoxKey, subBoxList)
+      hashSubBoxes.add(subBoxKey)
     }
   }
 
