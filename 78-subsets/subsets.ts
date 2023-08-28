@@ -1,15 +1,13 @@
 function subsets(nums: number[]): number[][] {
   const result = [[]]
 
-  function dfs(index: number, current: number[]): void {
-    for (let i = index; i < nums.length; i++) {
-      const res = [...current, nums[i]]
-      result.push(res)
-      dfs(i + 1, res)
+  for (const num of nums) {
+    for (const subset of [...result]) {
+      if (!subset.includes(num)) {
+        result.push([...subset, num])
+      }
     }
   }
-
-  dfs(0, [])
 
   return result
 };
