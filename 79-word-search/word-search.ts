@@ -2,10 +2,12 @@ function exist(board: string[][], word: string): boolean {
   const visited = new Set()
 
   function helper(row: number, col: number, wordIndex: number): boolean {
+    const visitedCacheKey = `${row}-${col}`
+
     if (board[row]?.[col] === undefined) {
       return false
     }
-    if (visited.has(`${row}-${col}`)) {
+    if (visited.has(visitedCacheKey)) {
       return false
     }
     if (board[row][col] !== word[wordIndex]) {
@@ -15,14 +17,14 @@ function exist(board: string[][], word: string): boolean {
       return true
     }
 
-    visited.add(`${row}-${col}`)
+    visited.add(visitedCacheKey)
 
     const hasFound = helper(row + 1, col, wordIndex + 1)
       || helper(row - 1, col, wordIndex + 1)
       || helper(row, col + 1, wordIndex + 1)
       || helper(row, col - 1, wordIndex + 1)
 
-    visited.delete(`${row}-${col}`)
+    visited.delete(visitedCacheKey)
 
     return hasFound
   }
