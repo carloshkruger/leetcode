@@ -8,7 +8,10 @@ function rob(nums: number[]): number {
     if (index >= nums.length) {
       return 0
     }
-    cache[index] = Math.max(nums[index] + Math.max(helper(index + 2), helper(index + 3)), helper(index + 1))
+    cache[index] = Math.max(
+      nums[index] + Math.max(helper(index + 2), helper(index + 3)),
+      helper(index + 1)
+    )
     return cache[index]
   }
 
