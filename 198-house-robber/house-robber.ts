@@ -1,8 +1,4 @@
 function rob(nums: number[]): number {
-  if (nums.length < 3) {
-    return Math.max(...nums)
-  }
-
   const cache = {}
 
   function helper(index: number): number {
