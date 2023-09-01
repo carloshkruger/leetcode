@@ -29,10 +29,7 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
     }
   }
 
-  if (count === 1) {
-    return null
-  }
-  if (previousNodeToRemove === nodeToRemove) {
+  if (count === 1 || previousNodeToRemove === nodeToRemove) {
     return nodeToRemove.next
   }
 
