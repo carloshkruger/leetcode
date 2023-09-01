@@ -13,14 +13,12 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
     graph.set(source, list)
   }
   
-
   const queue = []
   for (const [key, value] of inDegree.entries()) {
     if (value === 0) {
       queue.push(key)
     }
   }
-  console.log({inDegree, queue, graph})
   
   const answer = []
   while (queue.length) {
