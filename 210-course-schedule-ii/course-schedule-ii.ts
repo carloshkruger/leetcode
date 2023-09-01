@@ -22,7 +22,7 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
   
   const answer = []
   while (queue.length) {
-    const current = queue.pop()
+    const current = queue.shift()
     answer.push(current)
     if (graph.has(current)) {
       for (const item of graph.get(current)) {
