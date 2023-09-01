@@ -27,9 +27,8 @@ function findOrder(numCourses: number, prerequisites: number[][]): number[] {
     inDegree.delete(current)
     if (graph.has(current)) {
       for (const item of graph.get(current)) {
-        const itemDegree = inDegree.get(item)
-        inDegree.set(item, itemDegree - 1)
-        if (itemDegree === 1) {
+        inDegree.set(item, inDegree.get(item) - 1)
+        if (inDegree.get(item) === 0) {
           queue.push(item)
         } 
       }
