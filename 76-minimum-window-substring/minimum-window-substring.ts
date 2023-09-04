@@ -9,7 +9,7 @@ function minWindow(s: string, t: string): string {
   }
 
   let smalestLength = Infinity
-  let smalestString = ''
+  let substrStart = 0
   let windowStart = 0
   let matches = 0
 
@@ -26,7 +26,7 @@ function minWindow(s: string, t: string): string {
     while (matches === tHashCount.size) {
       if (windowEnd - windowStart + 1 < smalestLength) {
         smalestLength = windowEnd - windowStart + 1
-        smalestString = s.substring(windowStart, windowEnd+1) 
+        substrStart = windowStart
       }
       if (tHashCount.has(s[windowStart])) {
         const count = tHashCount.get(s[windowStart])
@@ -39,5 +39,9 @@ function minWindow(s: string, t: string): string {
     }
   }
 
-  return smalestString
+  if (smalestLength === Infinity) {
+    return ''
+  }
+
+  return s.substring(substrStart, substrStart + smalestLength)
 };
