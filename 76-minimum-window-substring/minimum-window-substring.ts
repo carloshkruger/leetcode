@@ -41,12 +41,3 @@ function minWindow(s: string, t: string): string {
 
   return smalestString
 };
-
-function test(tHashCount, currentHash): boolean {
-    for (const [key, value] of tHashCount) {
-      if (!currentHash.has(key) || currentHash.get(key) !== value) {
-        return false
-      }
-    }
-    return true
-}
