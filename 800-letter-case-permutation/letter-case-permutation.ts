@@ -7,9 +7,11 @@ function letterCasePermutation(s: string): string[] {
     }
     const length = answer.length
     for (let j = 0; j < length; j++) {
-      let current = answer[j].split('')
-      current[i] = toggleCase(s[i])
-      answer.push(current.join(''))
+      const newValue = 
+        answer[j].substring(0, i)
+        + toggleCase(s[i])
+        + answer[j].substring(i+1)
+      answer.push(newValue)
     }
   }
 
