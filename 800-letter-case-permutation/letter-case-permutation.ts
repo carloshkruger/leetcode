@@ -1,9 +1,8 @@
 function letterCasePermutation(s: string): string[] {
   const answer = [s]
-  const nums = ['0','1','2','3','4','5','6','7','8','9']
 
   for (let i = 0; i < s.length; i++) {
-    if (nums.includes(s[i])) {
+    if (Number.isInteger(Number(s[i]))) {
       continue
     }
     const length = answer.length
