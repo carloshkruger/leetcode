@@ -35,7 +35,6 @@ function pathSum(root: TreeNode | null, targetSum: number): number {
     pathCount += dfs(node.left, [...currentPath])
     pathCount += dfs(node.right, [...currentPath])
 
-    currentPath.pop()
     return pathCount
   }
 
