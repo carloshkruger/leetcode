@@ -13,29 +13,19 @@
  */
 
 function sumNumbers(root: TreeNode | null): number {
-  if (!root) {
-    return 0
-  }
-
-  let totalSum = 0
-
-  function dfs(node: TreeNode | null, numberAsString: string): void {
+  function dfs(node: TreeNode | null, currentSum: number): number {
     if (!node) {
-      return
+      return 0
     }
 
-    numberAsString += node.val.toString()
+    currentSum = 10 * currentSum + node.val
 
     if (!node.left && !node.right) {
-      totalSum += Number(numberAsString)
-      return
+      return currentSum
     }
 
-    dfs(node.left, numberAsString)    
-    dfs(node.right, numberAsString)
+    return dfs(node.left, currentSum) + dfs(node.right, currentSum)
   }
 
-  dfs(root, '')
-
-  return totalSum
+  return dfs(root, 0)
 };
