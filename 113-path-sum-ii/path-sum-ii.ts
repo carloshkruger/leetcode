@@ -19,14 +19,18 @@ function pathSum(root: TreeNode | null, targetSum: number): number[][] {
     if (!root) {
       return
     }
+  
+    currentPath.push(root.val)
+
     if (root.val === targetSum && !root.left && !root.right) {
-      currentPath.push(root.val)
-      answer.push(currentPath)
+      answer.push([...currentPath])
       return
     }
     
-    dfs(root.left, targetSum - root.val, [...currentPath, root.val])
-    dfs(root.right, targetSum - root.val, [...currentPath, root.val])
+    dfs(root.left, targetSum - root.val, [...currentPath])
+    dfs(root.right, targetSum - root.val, [...currentPath])
+
+    currentPath.pop()
   }
 
   dfs(root, targetSum, [])
