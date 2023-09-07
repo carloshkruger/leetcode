@@ -4,12 +4,14 @@ function frequencySort(s: string): string {
     charCount.set(char, (charCount.get(char) ?? 0) + 1)
   }
 
-  let answer = ''
+  const answer = []
   const orderedCharCount = [...charCount.entries()].sort((a,b) => b[1]-a[1])
 
   for (const [char, count] of orderedCharCount) {
-    answer = `${answer}${char.repeat(count)}`
+    for (let i = 0; i < count; i++) {
+      answer.push(char)
+    }
   }
 
-  return answer
+  return answer.join('')
 };
