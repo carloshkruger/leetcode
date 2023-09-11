@@ -1,20 +1,20 @@
 function generateParenthesis(n: number): string[] {
   const answer = []
 
-  function helper(current: string, openCount: number, closeCount: number) {
-    if (openCount === 0 && closeCount === 0) {
+  function helper(current: string, leftCount: number, rightCount: number): void {
+    if (leftCount === n && rightCount === n) {
       answer.push(current)
       return
     }
-    if (openCount > 0) {
-      helper(`${current}(`, openCount - 1, closeCount)
+    if (leftCount < n) {
+      helper(`${current}(`, leftCount+1, rightCount)
     }
-    if (openCount < closeCount) {
-      helper(`${current})`, openCount, closeCount - 1)
+    if (rightCount < leftCount) {
+      helper(`${current})`, leftCount, rightCount+1)
     }
   }
 
-  helper('', n, n)
+  helper('', 0, 0)
 
   return answer
 };
