@@ -13,15 +13,15 @@
  */
 
 function isValidBST(root: TreeNode | null): boolean {
-    return bst(root, -Infinity, Infinity)
-};
+  function helper(root: TreeNode | null, minValue: number, maxValue: number): boolean {
+    if (!root) {
+      return true
+    }
+    if (root.val <= minValue || root.val >= maxValue) {
+      return false
+    }
+    return helper(root.left, minValue, root.val) && helper(root.right, root.val, maxValue)
+  }
 
-function bst(node: TreeNode | null, minValue: number, maxValue: number): boolean {
-    if (!node) {
-        return true
-    }
-    if (node.val <= minValue || node.val >= maxValue) {
-        return false
-    }
-    return bst(node.left, minValue, node.val) && bst(node.right, node.val, maxValue)
-}
+  return helper(root, -Infinity, Infinity)
+};
