@@ -20,10 +20,10 @@ function rightSideView(root: TreeNode | null): number[] {
   const queue = [root]
   while (queue.length) {
     const levelSize = queue.length
-    for (let i = 0; i < levelSize; i++) {
+    for (let i = 1; i <= levelSize; i++) {
       const currentNode = queue.shift()
 
-      if (i === levelSize - 1) {
+      if (i === levelSize) {
         answer.push(currentNode.val)
       }
 
