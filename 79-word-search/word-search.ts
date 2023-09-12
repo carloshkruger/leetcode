@@ -1,37 +1,34 @@
 function exist(board: string[][], word: string): boolean {
   const visited = new Set()
 
-  function helper(row: number, col: number, wordIndex: number): boolean {
-    const visitedCacheKey = `${row}-${col}`
+  function dfs(row: number, col: number, wordIndex: number): boolean {
+    const value = board[row]?.[col]
+    const cacheKey = `${row},${col}`
+    const isOutOfBounds = value === undefined
+  
+    if (isOutOfBounds || visited.has(cacheKey) || value !== word[wordIndex]) {
+      return false
+    }
 
-    if (board[row]?.[col] === undefined) {
-      return false
-    }
-    if (visited.has(visitedCacheKey)) {
-      return false
-    }
-    if (board[row][col] !== word[wordIndex]) {
-      return false
-    }
+    visited.add(cacheKey)
+
     if (wordIndex === word.length - 1) {
       return true
     }
 
-    visited.add(visitedCacheKey)
+    const found = dfs(row + 1, col, wordIndex + 1)
+      || dfs(row - 1, col, wordIndex + 1)
+      || dfs(row, col + 1, wordIndex + 1)
+      || dfs(row, col - 1, wordIndex + 1)
 
-    const hasFound = helper(row + 1, col, wordIndex + 1)
-      || helper(row - 1, col, wordIndex + 1)
-      || helper(row, col + 1, wordIndex + 1)
-      || helper(row, col - 1, wordIndex + 1)
+    visited.delete(cacheKey)
 
-    visited.delete(visitedCacheKey)
-
-    return hasFound
+    return found
   }
 
-  for (let i = 0; i < board.length; i++) {
-    for (let j = 0; j < board[0].length; j++) {
-      if (helper(i, j, 0)) {
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[0].length; col++) {
+      if (dfs(row, col, 0)) {
         return true
       }
     }
