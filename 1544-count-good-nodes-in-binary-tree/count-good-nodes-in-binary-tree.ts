@@ -27,10 +27,10 @@ function goodNodes(root: TreeNode | null): number {
       goodNodesCount++
     }
 
-    const newMaxValue = Math.max(maxValue, root.val)
+    maxValue = Math.max(maxValue, root.val)
 
-    helper(root.left, newMaxValue)
-    helper(root.right, newMaxValue)
+    helper(root.left, maxValue)
+    helper(root.right, maxValue)
   }
 
   helper(root, root.val)
