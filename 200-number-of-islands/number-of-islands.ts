@@ -3,14 +3,16 @@ function numIslands(grid: string[][]): number {
   let islandCount = 0
 
   function dfs(row: number, col: number): boolean {
-    const value = grid[row]?.[col]
-    const isOutOfBounds = value === undefined
+    const isOutOfBounds = row < 0
+      || row >= grid.length
+      || col < 0
+      || col >= grid[0].length
 
     if (isOutOfBounds) {
       return false
     }
 
-    const isWater = value === '0'
+    const isWater = grid[row][col] === '0'
     if (isWater) {
       return false
     }
