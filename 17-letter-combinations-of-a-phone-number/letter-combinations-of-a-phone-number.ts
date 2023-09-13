@@ -21,10 +21,10 @@ function letterCombinations(digits: string): string[] {
       return
     }
 
-    const letters = map[Number(digits[index])]
+    const letters = map[digits[index]]
 
     for (let i = 0; i < letters.length; i++) {
-      backtrack(`${current}${letters[i]}`, index + 1)
+      backtrack(current + letters[i], index + 1)
     }
   }
 
