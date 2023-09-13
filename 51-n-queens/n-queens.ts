@@ -54,13 +54,11 @@ function solveNQueens(n: number): string[][] {
     for (let i = row; i < board.length; i++) {
       let found = false
       for (let j = col; j < board[0].length; j++) {
-        if (board[i][j] === '.') {
-          board[i][j] = 'Q'
-          if (backtrack(board, row + 1, col, qCount+1)) {
-            found = true
-          }
-          board[i][j] = '.'
+        board[i][j] = 'Q'
+        if (backtrack(board, row + 1, col, qCount+1)) {
+          found = true
         }
+        board[i][j] = '.'
       }
       if (!found) {
         return false
