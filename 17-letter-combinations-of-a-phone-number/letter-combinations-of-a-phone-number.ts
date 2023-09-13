@@ -15,20 +15,20 @@ function letterCombinations(digits: string): string[] {
     9: 'wxyz'
   }
 
-  function helper(digitIndex: number, current: string): void {
+  function backtrack(current: string, index: number) {
     if (current.length === digits.length) {
       answer.push(current)
       return
     }
 
-    const letters = map[digits[digitIndex]]
+    const letters = map[Number(digits[index])]
 
     for (let i = 0; i < letters.length; i++) {
-      helper(digitIndex + 1, current + letters[i])
+      backtrack(`${current}${letters[i]}`, index + 1)
     }
   }
 
-  helper(0, "")
+  backtrack('', 0)
 
   return answer
 };
