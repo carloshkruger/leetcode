@@ -4,14 +4,21 @@ function numIslands(grid: string[][]): number {
 
   function dfs(row: number, col: number): boolean {
     const value = grid[row]?.[col]
-    const cacheKey = `${row},${col}`
     const isOutOfBounds = value === undefined
-    const isWater = value === '0'
 
-    if (isOutOfBounds || visited.has(cacheKey) || isWater) {
+    if (isOutOfBounds) {
       return false
     }
 
+    const isWater = value === '0'
+    if (isWater) {
+      return false
+    }
+
+    const cacheKey = `${row},${col}`
+    if (visited.has(cacheKey)) {
+      return false
+    }
     visited.add(cacheKey)
 
     dfs(row+1, col)
