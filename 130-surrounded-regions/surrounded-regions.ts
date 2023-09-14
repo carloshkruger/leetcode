@@ -2,24 +2,17 @@
  Do not return anything, modify board in-place instead.
  */
 function solve(board: string[][]): void {
-  const visited = new Set()
+  const rows = board.length - 1
+  const cols = board[0].length - 1
 
   function dfs(row: number, col: number): void {
     const isOutOfBounds = row < 0
       || col < 0
-      || row >= board.length
-      || col >= board[0].length
-    if (isOutOfBounds) {
+      || row > rows
+      || col > cols
+    if (isOutOfBounds || board[row][col] !== 'O') {
       return
     }
-    if (board[row][col] === 'X') {
-      return
-    }
-    const cacheKey = `${row},${col}`
-    if (visited.has(cacheKey)) {
-      return
-    }
-    visited.add(cacheKey)
 
     board[row][col] = 'T'
 
@@ -28,9 +21,6 @@ function solve(board: string[][]): void {
     dfs(row, col+1)
     dfs(row, col-1)
   }
-
-  const rows = board.length - 1
-  const cols = board[0].length - 1
 
   // upper border
   for (let col = 0; col <= cols; col++) {
