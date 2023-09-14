@@ -1,7 +1,7 @@
 function minEatingSpeed(piles: number[], h: number): number {
-  let minSpeed = Infinity
   let start = 1
   let end = Math.max(...piles)
+  let minSpeed = end
 
   while (start <= end) {
     const value = Math.floor(start + (end - start) / 2)
