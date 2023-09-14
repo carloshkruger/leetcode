@@ -22,26 +22,21 @@ function solve(board: string[][]): void {
     dfs(row, col-1)
   }
 
-  // upper border
+  // upper and bottom borders
   for (let col = 0; col <= cols; col++) {
     if (board[0][col] === 'O') {
       dfs(0, col)
     }
-  }
-  // bottom border
-  for (let col = 0; col <= cols; col++) {
     if (board[rows][col] === 'O') {
       dfs(rows, col)
     }
   }
-  // left border
+
+  // left and right borders
   for (let row = 0; row <= rows; row++) {
     if (board[row][0] === 'O') {
       dfs(row, 0)
     }
-  }
-  // right border
-  for (let row = 0; row < rows; row++) {
     if (board[row][cols] === 'O') {
       dfs(row, cols)
     }
