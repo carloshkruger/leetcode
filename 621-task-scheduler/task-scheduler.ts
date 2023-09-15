@@ -1,36 +1,39 @@
 function leastInterval(tasks: string[], n: number): number {
-  if (n === 0) {
-    return tasks.length
+  if (tasks.length === 0) {
+    return 0
   }
+
   const taskCount = new Map()
   for (const task of tasks) {
     taskCount.set(task, (taskCount.get(task) ?? 0) + 1)
   }
-  const orderedTaskCount = [...taskCount.entries()].sort((a,b) => a[1]-b[1])
-  const stack = []
-  let intervalCount = 0
 
-  while (orderedTaskCount.length) {
+  const orderedTasks = [...taskCount.entries()].sort((a,b) => a[1]-b[1])
+  const stack = []
+
+  let unitTimeCount = 0
+
+  while (orderedTasks.length) {
     let i = n + 1
-    while (i > 0 && orderedTaskCount.length) {
-      const [task, taskCount] = orderedTaskCount.pop()
-      if (taskCount > 1) {
-        stack.push([task, taskCount-1])
-      }
-      intervalCount++
+    while (i > 0 && orderedTasks.length) {
+      unitTimeCount++
       i--
+
+      const [task, count] = orderedTasks.pop()
+      if (count > 1) {
+        stack.push([task, count - 1])
+      }
     }
 
     while (stack.length) {
-      orderedTaskCount.push(stack.pop())
+      orderedTasks.push(stack.pop())
     }
-    orderedTaskCount.sort((a,b) => a[1]-b[1])
+    orderedTasks.sort((a,b) => a[1]-b[1])
 
-    if (orderedTaskCount.length > 0) {
-      intervalCount += i
+    if (orderedTasks.length) {
+      unitTimeCount += i
     }
   }
 
-  return intervalCount
+  return unitTimeCount
 };
-
