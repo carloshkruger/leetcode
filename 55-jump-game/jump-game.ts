@@ -1,16 +1,11 @@
 function canJump(nums: number[]): boolean {
-  const list = Array(nums.length).fill(false)
-  list[list.length-1] = true
+  let goal = nums.length - 1
 
   for (let i = nums.length-2; i >= 0; i--) {
-    let currentValue = Math.min(nums[i], nums.length-i)
-    for (let j = 1; j <= currentValue; j++) {
-      if (list[j+i]) {
-        list[i] = true
-        break
-      }
+    if (nums[i]+i >= goal) {
+      goal = i
     }
   }
 
-  return list[0]
+  return goal === 0
 };
