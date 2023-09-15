@@ -4,7 +4,7 @@ function canJump(nums: number[]): boolean {
 
   for (let i = nums.length-2; i >= 0; i--) {
     let currentValue = Math.min(nums[i], nums.length-i)
-    for (let j = currentValue; j >= 1; j--) {
+    for (let j = 1; j <= currentValue; j++) {
       if (list[j+i]) {
         list[i] = true
         break
