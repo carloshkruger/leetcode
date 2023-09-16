@@ -20,9 +20,9 @@ const EMPTY_PLACEHOLDER = 'null'
 
 function serialize(root: TreeNode | null): string {
   if (!root) {
-    return EMPTY_PLACEHOLDER + DELIMITER
+    return `${EMPTY_PLACEHOLDER}${DELIMITER}`
   }
-  return root.val + DELIMITER + serialize(root.left) + serialize(root.right)
+  return `${root.val}${DELIMITER}${serialize(root.left)}${serialize(root.right)}`
 };
 
 /*
