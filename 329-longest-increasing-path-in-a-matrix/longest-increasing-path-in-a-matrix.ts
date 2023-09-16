@@ -6,16 +6,13 @@ function longestIncreasingPath(matrix: number[][]): number {
   let max = 0
   const visited = new Map<string, number>()
 
-  function dfs(row: number, col: number, prev: number, log = false): number {
+  function dfs(row: number, col: number, prev: number): number {
     const isOutOfBounds = row < 0
       || col < 0
       || row >= matrix.length
       || col >= matrix[0].length
-    if (isOutOfBounds) {
-      return 0
-    }
 
-    if (matrix[row][col] >= prev) {
+    if (isOutOfBounds || matrix[row][col] >= prev) {
       return 0
     }
 
@@ -25,10 +22,10 @@ function longestIncreasingPath(matrix: number[][]): number {
     }
 
     const result = 1 + Math.max(
-      dfs(row + 1, col, matrix[row][col], log),
-      dfs(row - 1, col, matrix[row][col], log),
-      dfs(row, col + 1, matrix[row][col], log),
-      dfs(row, col - 1, matrix[row][col], log)
+      dfs(row + 1, col, matrix[row][col]),
+      dfs(row - 1, col, matrix[row][col]),
+      dfs(row, col + 1, matrix[row][col]),
+      dfs(row, col - 1, matrix[row][col])
     )
 
     visited.set(cacheKey, result)
@@ -38,7 +35,7 @@ function longestIncreasingPath(matrix: number[][]): number {
 
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[0].length; col++) {
-      const pathLength = dfs(row, col, Infinity, row === 2 && col === 1)
+      const pathLength = dfs(row, col, Infinity)
       max = Math.max(max, pathLength)
     }
   }
