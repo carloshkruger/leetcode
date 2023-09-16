@@ -29,12 +29,10 @@ function serialize(root: TreeNode | null): string {
  * Decodes your encoded data to tree.
  */
 function deserialize(data: string): TreeNode | null {
-  const list = data.split(DELIMITER)
-  let index = 0
+  const list = data.split(DELIMITER).reverse()
 
-  function helper(): TreeNode | null {
-    const item = list[index]
-    index++
+  function helper(list: string[]): TreeNode | null {
+    const item = list.pop()
 
     if (item === EMPTY_PLACEHOLDER) {
       return null
@@ -42,13 +40,13 @@ function deserialize(data: string): TreeNode | null {
 
     const node = new TreeNode(Number(item))
 
-    node.left = helper()
-    node.right = helper()
+    node.left = helper(list)
+    node.right = helper(list)
 
     return node
   }
 
-  return helper()
+  return helper(list)
 };
 
 
