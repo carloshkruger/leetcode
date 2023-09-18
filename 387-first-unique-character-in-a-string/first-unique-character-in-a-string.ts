@@ -9,7 +9,7 @@ function firstUniqChar(s: string): number {
       charCount.set(s[i], { firstIndex: i, count: 1 })
     }
   }
-  for (const [key, data] of charCount.entries()) {
+  for (const data of charCount.values()) {
     if (data.count === 1) {
       return data.firstIndex
     }
