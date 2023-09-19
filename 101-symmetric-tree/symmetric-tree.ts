@@ -13,36 +13,15 @@
  */
 
 function isSymmetric(root: TreeNode | null): boolean {
-  if (!root) {
-    return true
+  function isMirror(node1: TreeNode | null, node2: TreeNode | null): boolean {
+    if (!node1 && !node2) {
+      return true
+    }
+    if (node1?.val !== node2?.val) {
+      return false
+    }
+    return isMirror(node1.left, node2.right) && isMirror(node1.right, node2.left)
   }
 
-  const queue = [root]
-
-  while (queue.length) {
-    const levelSize = queue.length
-    const levelList = []
-    for (let i = 0; i < levelSize; i++) {
-      const current = queue.shift()
-      levelList.push(current.left?.val)
-      levelList.push(current.right?.val)
-      if (current.left) {
-        queue.push(current.left)
-      }
-      if (current.right) {
-        queue.push(current.right)
-      }
-    }
-    let start = 0
-    let end = levelList.length - 1
-    while (start < end) {
-      if (levelList[start] !== levelList[end]) {
-        return false
-      }
-      start++
-      end--
-    }
-  }
-
-  return true
+  return isMirror(root, root)
 };
