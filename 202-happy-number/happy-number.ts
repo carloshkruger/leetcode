@@ -1,6 +1,6 @@
 function isHappy(n: number): boolean {
   const visited = new Set()
-  let current = n.toString()
+  let current = n
 
   while (true) {
     if (visited.has(current)) {
@@ -8,14 +8,15 @@ function isHappy(n: number): boolean {
     }
     visited.add(current)
 
-    current = current
-      .split('')
-      .map(num => Number(num) ** 2)
-      .reduce((a,b) => a+b, 0)
-      .toString()
-    
+    let aux = current
+    let sum = 0
+    while (aux > 0) {
+      sum += (aux % 10) ** 2
+      aux = Math.floor(aux / 10)
+    }
 
-    if (current === '1') {
+    current = sum
+    if (current === 1) {
       return true
     }
   }
