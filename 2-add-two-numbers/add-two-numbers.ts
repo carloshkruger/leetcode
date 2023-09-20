@@ -10,55 +10,29 @@
  * }
  */
 
-function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+function addTwoNumbers(l1: ListNode | null, l2: ListNode | null, carry = 0): ListNode | null {
   if (!l1 && !l2) {
     return null
   }
 
-  const nums1 = getValue(l1)
-  const nums2 = getValue(l2)
-  const sumList = []
-  let index = 0
-  let lastIndex = nums1.length > nums2.length ? nums1.length : nums2.length
-  let carry = 0
+  const num1 = l1?.val ?? 0
+  const num2 = l2?.val ?? 0
+  let sum = num1 + num2 + carry
 
-  while (index < lastIndex) {
-    let sum = (nums1[index] ?? 0) + (nums2[index] ?? 0) + carry
-    if (sum > 9) {
-      sum = sum % 10
-      carry = 1
-    } else if (carry === 1) {
-      carry = 0
-    }
-    sumList.push(sum)
-    index++
+  if (sum > 9) {
+    sum = sum % 10
+    carry = 1
+  } else if (carry === 1) {
+    carry = 0
   }
 
-  if (carry === 1) {
-    sumList.push(1)
+  const node = new ListNode(sum)
+  node.next = addTwoNumbers(l1?.next || null, l2?.next || null, carry)
+
+  if (!node.next && carry === 1) {
+    node.next = new ListNode(1)
   }
 
-  const head = new ListNode()
-  let tail = head
-  index = 0
-
-  while (index < sumList.length) {
-    tail.next = new ListNode(sumList[index])
-    tail = tail.next
-    index++
-  }
-
-  return head.next
+  return node
 };
 
-function getValue(list: ListNode | null): number[] {
-  let current = list
-  let nums = []
-
-  while (current) {
-    nums.push(current.val)
-    current = current.next
-  }
-
-  return nums
-}
