@@ -1,17 +1,18 @@
 function trap(height: number[]): number {
-  let trappedWater = 0
   const stack = []
+  let trappedWater = 0
 
   for (let i = 0; i < height.length; i++) {
-    while (stack.length && height[stack[stack.length-1]] < height[i]) {
+    while (stack.length && height[i] > height[stack.at(-1)]) {
       const middleIndex = stack.pop()
       if (!stack.length) {
         break
       }
-      const leftHeight = height[stack[stack.length-1]]
-      const minHeight = Math.min(leftHeight, height[i]) - height[middleIndex]
-      const distance = i - stack[stack.length-1] - 1
-      trappedWater += distance * minHeight
+      const prevIndex = stack.at(-1)
+      const minHeight = Math.min(height[prevIndex], height[i]) - height[middleIndex]
+      const currentDistance = i - prevIndex - 1
+      const currentTrappedWater = currentDistance * minHeight
+      trappedWater += currentTrappedWater
     }
     stack.push(i)
   }
