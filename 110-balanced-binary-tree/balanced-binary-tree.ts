@@ -15,19 +15,21 @@
 function isBalanced(root: TreeNode | null): boolean {
     let unbalanceFound = false
 
-    function dfs(node: TreeNode | null) {
-        if (!node) {
+    function dfs(root: TreeNode | null): number {
+        if (!root) {
             return 0
-        } else if (!unbalanceFound) {
-            const leftDepth = dfs(node.left)
-            const rightDepth = dfs(node.right)
-
-            if (Math.abs(leftDepth - rightDepth) > 1) {
-                unbalanceFound = true
-            }
-
-            return 1 + Math.max(leftDepth, rightDepth)
         }
+        if (unbalanceFound) {
+            return 0
+        }
+        const leftDepth = dfs(root.left)
+        const rightDepth = dfs(root.right)
+
+        if (Math.abs(rightDepth - leftDepth) > 1) {
+            unbalanceFound = true
+        }
+
+        return 1 + Math.max(leftDepth, rightDepth)
     }
 
     dfs(root)
