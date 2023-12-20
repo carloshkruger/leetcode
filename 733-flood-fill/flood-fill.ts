@@ -1,29 +1,32 @@
 function floodFill(image: number[][], sr: number, sc: number, color: number): number[][] {
-    const originalColor = image[sr][sc]
-    const visited = new Set()
+  const visited = new Set()
+  const originalValue = image[sr][sc]
 
-    function helper(row: number, col: number) {
-        const isOutOfBounds = image[row]?.[col] === undefined
-        if (isOutOfBounds) {
-            return
-        }
-        if (image[row][col] !== originalColor) {
-            return
-        }
-        const key = `${row},${col}`
-        if (visited.has(key)) {
-            return
-        }
-        visited.add(key)
-        image[row][col] = color
+  function bfs(row: number, col: number) {
+    const value = image[row]?.[col]
+    const isOutOfBounds = value === undefined
+    if (isOutOfBounds) {
+      return
+    }
+    const cacheKey = `${row}-${col}`
+    if (visited.has(cacheKey)) {
+      return 
+    }
+    visited.add(cacheKey)
 
-        helper(row + 1, col)
-        helper(row - 1, col)
-        helper(row, col + 1)
-        helper(row, col - 1)
+    if (value !== originalValue) {
+      return
     }
 
-    helper(sr, sc)
+    image[row][col] = color
 
-    return image
+    bfs(row + 1, col)
+    bfs(row - 1, col)
+    bfs(row, col + 1)
+    bfs(row, col - 1)
+  }
+
+  bfs(sr, sc)
+
+  return image
 };
