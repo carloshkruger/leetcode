@@ -1,15 +1,32 @@
 function backspaceCompare(s: string, t: string): boolean {
-    return getFinalText(s) === getFinalText(t)
-};
+    const sStack = []
+    const tStack = []
 
-function getFinalText(text: string): string {
-    const stack = []
-    for (const char of text) {
-        if (char !== '#') {
-            stack.push(char)
+    for (const char of s) {
+        if (char === '#') {
+            sStack.pop()
         } else {
-            stack.pop()
+            sStack.push(char)
         }
     }
-    return stack.join('')
-}
+
+    for (const char of t) {
+        if (char === '#') {
+            tStack.pop()
+        } else {
+            tStack.push(char)
+        }
+    }
+
+    if (sStack.length !== tStack.length) {
+        return false
+    }
+
+    while (sStack.length) {
+        if (sStack.pop() !== tStack.pop()) {
+            return false
+        }
+    }
+
+    return true
+};
