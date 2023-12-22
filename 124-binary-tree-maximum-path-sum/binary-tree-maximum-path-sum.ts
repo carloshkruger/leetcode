@@ -13,25 +13,32 @@
  */
 
 function maxPathSum(root: TreeNode | null): number {
-  if (!root) {
-    return 0
-  }
-
-  let maxSum = -Infinity
-
-  function dfs(node: TreeNode | null): number {
-    if (!node) {
-      return 0
+    if (!root) {
+        return 0
     }
-    const leftSum = Math.max(dfs(node.left), 0)
-    const rightSum = Math.max(dfs(node.right), 0)
 
-    maxSum = Math.max(maxSum, node.val + leftSum + rightSum)
+    let maxSum = -Infinity
 
-    return node.val + Math.max(leftSum, rightSum)
-  }
+    function dfs(root: TreeNode | null): number {
+        if (!root) {
+            return 0
+        }
 
-  dfs(root)
+        const leftSum = dfs(root.left)
+        const rightSum = dfs(root.right)
 
-  return maxSum
-}
+        maxSum = Math.max(
+            maxSum,
+            root.val, 
+            root.val + leftSum + rightSum, 
+            root.val + leftSum, 
+            root.val + rightSum
+        )
+
+        return Math.max(root.val, root.val + Math.max(leftSum, rightSum))
+    }
+
+    dfs(root)
+
+    return maxSum
+};
