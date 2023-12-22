@@ -2,10 +2,9 @@ function subsets(nums: number[]): number[][] {
   const result = [[]]
 
   for (const num of nums) {
-    for (const subset of [...result]) {
-      if (!subset.includes(num)) {
-        result.push([...subset, num])
-      }
+    const resultLength = result.length
+    for (let i = 0; i < resultLength; i++) {
+      result.push([...result[i], num])
     }
   }
 
