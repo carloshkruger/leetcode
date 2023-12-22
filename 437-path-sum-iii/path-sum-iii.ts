@@ -13,30 +13,28 @@
  */
 
 function pathSum(root: TreeNode | null, targetSum: number): number {
-  if (!root) {
-    return 0
-  }
-
-  function dfs(node: TreeNode | null, currentPath: number[]): number {
-    if (!node) {
-      return 0 
-    }
-
-    currentPath.push(node.val)
-    let pathSum = 0
     let pathCount = 0
-    for (let i = currentPath.length-1; i >= 0; i--) {
-      pathSum += currentPath[i]
-      if (pathSum === targetSum) {
-        pathCount++
-      }
+
+    function dfs(root: TreeNode | null, currentPath: number[]) {
+        if (!root) {
+            return
+        }
+
+        currentPath.push(root.val)
+
+        let currentSum = 0
+        for (let i = currentPath.length - 1; i >= 0; i--) {
+            currentSum += currentPath[i]
+            if (currentSum === targetSum) {
+                pathCount++
+            }
+        }
+
+        dfs(root.left, [...currentPath])
+        dfs(root.right, [...currentPath])
     }
 
-    pathCount += dfs(node.left, [...currentPath])
-    pathCount += dfs(node.right, [...currentPath])
+    dfs(root, [])
 
     return pathCount
-  }
-
-  return dfs(root, [])
 };
