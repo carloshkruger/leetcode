@@ -1,26 +1,21 @@
 function subsetsWithDup(nums: number[]): number[][] {
-  nums.sort((a,b) => a-b)
+    nums.sort((a, b) => a - b)
 
-  const subsets = []
+    const result = [[]]
+    let start = 0
+    let end = 0
 
-  function backtrack(index: number, subset: number[]): void {
-    if (index >= nums.length) {
-      subsets.push([...subset])
-      return
+    for (let i = 0; i < nums.length; i++) {
+        end = result.length
+        for (let j = start; j < end; j++) {
+            result.push([...result[j], nums[i]])
+        }
+        if (nums[i] === nums[i + 1]) {
+            start = end
+        } else {
+            start = 0
+        }
     }
 
-    subset.push(nums[index])
-    backtrack(index + 1, subset)
-    subset.pop()
-
-    while (index + 1 < nums.length && nums[index] === nums[index + 1]) {
-      index++
-    }
-
-    backtrack(index + 1, subset)
-  }
-
-  backtrack(0, [])
-
-  return subsets
+    return result
 };
