@@ -1,20 +1,25 @@
 function permute(nums: number[]): number[][] {
     const permutations = []
+    const prev = [[]]
 
-    function backtrack(current: number[]) {
-        if (current.length === nums.length) {
-            permutations.push(current)
-            return
-        }
+    for (const num of nums) {
+        const length = prev.length
 
-        for (const num of nums) {
-            if (!current.includes(num)) {
-                backtrack([...current, num])
+        for (let i = 0; i < length; i++) {
+            const old = prev.shift()
+
+            for (let j = 0; j < old.length + 1; j++) {
+                const newPermutation = [...old]
+                newPermutation.splice(j, 0, num)
+
+                if (newPermutation.length === nums.length) {
+                    permutations.push(newPermutation)
+                } else {
+                    prev.push(newPermutation)
+                }
             }
         }
     }
-
-    backtrack([])
 
     return permutations
 };
