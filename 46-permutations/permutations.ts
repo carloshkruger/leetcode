@@ -1,20 +1,20 @@
 function permute(nums: number[]): number[][] {
-    const answer = []
+    const permutations = []
 
     function backtrack(current: number[]) {
         if (current.length === nums.length) {
-            answer.push(current)
+            permutations.push(current)
             return
         }
 
-        for (let i = 0; i < nums.length; i++) {
-            if (!current.includes(nums[i])) {
-                backtrack([...current, nums[i]])
+        for (const num of nums) {
+            if (!current.includes(num)) {
+                backtrack([...current, num])
             }
         }
     }
 
     backtrack([])
 
-    return answer
+    return permutations
 };
