@@ -1,89 +1,3 @@
-class LRUCache {
-  private hashMap = new Map<number, LinkedListNode>()
-  private head: LinkedListNode | null = null
-  private tail: LinkedListNode | null = null
-
-  constructor(private capacity: number) {}
-
-  get(key: number): number {
-    if (this.hashMap.has(key)) {
-      const node = this.hashMap.get(key)
-      this.updateNode(node)
-      return node.value
-    }
-    return -1
-  }
-
-  put(key: number, value: number): void {
-    if (!this.hashMap.has(key)) {
-      const node = new LinkedListNode(key, value)
-
-      if (this.isFull()) {
-        this.hashMap.delete(this.head?.key)
-        this.removeFirstNode()
-      }
-
-      this.appendNode(node)
-      this.hashMap.set(key, node)
-
-      return
-    }
-
-    const node = this.hashMap.get(key)
-    node.value = value
-    this.hashMap.set(key, node)
-    this.updateNode(node)
-  }
-
-  private isFull(): boolean {
-    return this.capacity === this.hashMap.size
-  }
-
-  private removeFirstNode(): void {
-    if (!this.head) {
-      return
-    }
-    if (this.head === this.tail) {
-      this.head = null
-      this.tail = null
-      return
-    }
-    this.head = this.head.next
-    this.head.prev = null
-  }
-
-  private appendNode(node: LinkedListNode): void {
-    if (!this.head) {
-      this.head = node
-      this.tail = node
-      return
-    }
-
-    node.prev = this.tail
-    this.tail.next = node
-    this.tail = node
-  }
-
-  private updateNode(node: LinkedListNode): void {
-    if (this.tail === node) {
-      return
-    }
-
-    if (this.head === node) {
-      this.head = node.next
-    } else {
-      if (node.next) {
-        node.next.prev = node.prev
-      }
-      if (node.prev) {
-        node.prev.next = node.next
-      }
-    }
-
-    this.appendNode(node)
-  }
-}
-
 class LinkedListNode {
   constructor(
     public key: number,
@@ -91,6 +5,85 @@ class LinkedListNode {
     public prev?: LinkedListNode,
     public next?: LinkedListNode
   ) {}
+}
+
+class LRUCache {
+  private head: LinkedListNode | null = null
+  private tail: LinkedListNode | null = null
+  private cacheMap = new Map<number, LinkedListNode>()
+
+  constructor(private capacity: number) {}
+
+  get(key: number): number {
+    if (!this.cacheMap.has(key)) {
+      return -1
+    }
+
+    const node = this.cacheMap.get(key)
+    this.updateList(node)
+    return node.value
+  }
+
+  put(key: number, value: number): void {
+    if (this.cacheMap.has(key)) {
+      const node = this.cacheMap.get(key)
+      node.value = value
+
+      this.cacheMap.set(key, node)
+      this.updateList(node)
+
+      return
+    }
+
+    if (this.cacheMap.size === this.capacity) {
+      if (this.head) {
+        this.cacheMap.delete(this.head.key)
+      }
+      this.removeLeastRecentlyUsed()
+    }
+
+    const node = new LinkedListNode(key, value)
+    this.cacheMap.set(key, node)
+    this.updateList(node)    
+  }
+
+  private removeLeastRecentlyUsed(): void {
+    if (this.tail === this.head) {
+      this.tail = null
+      this.head = null
+      return
+    }
+
+    this.head = this.head.next
+    this.head.prev = null
+  }
+
+  private updateList(node: LinkedListNode): void {
+    if (this.tail === node) {
+      return
+    }
+
+    if (!this.head) {
+      this.head = node
+      this.tail = node
+      return
+    }
+
+    if (this.head === node) {
+      this.head = this.head.next
+    } else {
+      if (node.prev) {
+        node.prev.next = node.next
+      }
+      if (node.next) {
+        node.next.prev = node.prev
+      }
+    }
+
+    this.tail.next = node
+    node.prev = this.tail
+    this.tail = node
+  }
 }
 
 /**
