@@ -1,12 +1,12 @@
 function subsets(nums: number[]): number[][] {
-  const result = [[]]
+    const answer = [[]]
 
-  for (const num of nums) {
-    const resultLength = result.length
-    for (let i = 0; i < resultLength; i++) {
-      result.push([...result[i], num])
+    for (const num of nums) {
+        const length = answer.length
+        for (let i = 0; i < length; i++) {
+            answer.push([...answer[i], num])
+        }
     }
-  }
 
-  return result
+    return answer
 };
