@@ -15,23 +15,23 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
     return null
   }
 
-  let slowPointer = head
-  let fastPointer = head
+  let fasterPointer = head
 
   for (let i = 0; i < n; i++) {
-    fastPointer = fastPointer.next
+    fasterPointer = fasterPointer.next
   }
 
-  if (!fastPointer) {
+  if (!fasterPointer) {
     return head.next
   }
 
-  while (fastPointer.next) {
-    fastPointer = fastPointer.next
-    slowPointer = slowPointer.next
+  let slowerPointer = head
+  while (fasterPointer.next) {
+    fasterPointer = fasterPointer.next
+    slowerPointer = slowerPointer.next
   }
 
-  slowPointer.next = slowPointer.next.next
+  slowerPointer.next = slowerPointer.next.next
 
   return head
 };
