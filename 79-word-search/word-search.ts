@@ -1,27 +1,33 @@
 function exist(board: string[][], word: string): boolean {
   const visited = new Set()
 
-  function dfs(row: number, col: number, wordIndex: number): boolean {
-    const value = board[row]?.[col]
-    const cacheKey = `${row},${col}`
-    const isOutOfBounds = value === undefined
-  
-    if (isOutOfBounds || visited.has(cacheKey) || value !== word[wordIndex]) {
+  function dfs(row: number, col: number, index: number): boolean {
+    const isOutOfBounds = row < 0
+      || col < 0
+      || row >= board.length
+      || col >= board[0].length
+    if (isOutOfBounds) {
       return false
     }
-
-    visited.add(cacheKey)
-
-    if (wordIndex === word.length - 1) {
+    const key = `${row},${col}`
+    if (visited.has(key)) {
+      return false
+    }
+    if (board[row][col] !== word[index]) {
+      return false
+    }
+    if (index === word.length - 1) {
       return true
     }
+    
+    visited.add(key)
 
-    const found = dfs(row + 1, col, wordIndex + 1)
-      || dfs(row - 1, col, wordIndex + 1)
-      || dfs(row, col + 1, wordIndex + 1)
-      || dfs(row, col - 1, wordIndex + 1)
+    const found = dfs(row - 1, col, index + 1)
+      || dfs(row + 1, col, index + 1)
+      || dfs(row, col + 1, index + 1)
+      || dfs(row, col - 1, index + 1)
 
-    visited.delete(cacheKey)
+    visited.delete(key)
 
     return found
   }
