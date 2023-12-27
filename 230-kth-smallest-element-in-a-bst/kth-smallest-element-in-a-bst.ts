@@ -13,18 +13,21 @@
  */
 
 function kthSmallest(root: TreeNode | null, k: number): number {
-  const values = []
+  let value = null
 
   function dfs(root: TreeNode | null) {
-    if (!root) {
+    if (!root || value !== null) {
       return
     }
     dfs(root.left)
-    values.push(root.val)
+    k--
+    if (k === 0) {
+      value = root.val
+    }
     dfs(root.right)
   }
 
   dfs(root)
 
-  return values[k-1]
+  return value
 };
