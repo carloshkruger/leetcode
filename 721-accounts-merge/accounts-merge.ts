@@ -1,51 +1,48 @@
 function accountsMerge(accounts: string[][]): string[][] {
   const graph = {}
-  const owner = {}
+  const nameMap = {}
 
-  for (const account of accounts) {
-    const [name, ...emails] = account
-
+  for (const [name, ...emails] of accounts) {
     for (const email of emails) {
       if (!(email in graph)) {
-        graph[email] = new Set()
-        owner[email] = name
+        graph[email] = []
+        nameMap[email] = name
       }
-    }
-
-    for (const email of emails) {
       for (const email2 of emails) {
         if (email !== email2) {
-          graph[email].add(email2)
-          graph[email2].add(email)
+          graph[email].push(email2)
         }
       }
     }
   }
 
-  const traverse = (email: string, list: string[]) => {
-    if (visited.has(email)) {
+  const visited = new Set()
+  const groupedEmails = {}
+  const answer = []
+
+  const groupEmails = (originalEmail: string, currentEmail: string) => {
+    if (visited.has(currentEmail)) {
       return
     }
-    visited.add(email)
-    list.push(email)
-
-    for (const neighbor of graph[email]) {
-      traverse(neighbor, list)
+    groupedEmails[originalEmail].push(currentEmail)
+    visited.add(originalEmail)
+    visited.add(currentEmail)
+    for (const childEmail of graph[currentEmail]) {
+      groupEmails(originalEmail, childEmail)
     }
   }
 
-  const answer = []
-  const visited = new Set()
-
-  for (const key in graph) {
-    const list = []
-
-    traverse(key, list)
-  
-    if (list.length) {
-      list.sort()
-      answer.push([owner[key], ...list])
+  for (const email in graph) {
+    if (!visited.has(email)) {
+      if (!(email in groupedEmails)) {
+        groupedEmails[email] = []
+      }
+      groupEmails(email, email)
     }
+  }
+
+  for (const email in groupedEmails) {
+    answer.push([nameMap[email], ...groupedEmails[email].sort()])
   }
 
   return answer
