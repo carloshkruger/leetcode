@@ -1,26 +1,21 @@
 function combinationSum(candidates: number[], target: number): number[][] {
   const combinations = []
-  const visited = new Set()
 
-  function backtrack(currentSum: number, currentValues: number[]): void {
-    if (currentSum > target) {
+  function backtrack(currentSum: number, currentValues: number[], currentIndex: number): void {
+    if (currentSum > target || currentIndex >= candidates.length) {
       return
     }
     if (currentSum === target) {
-      const key = currentValues.sort().join('-')
-      if (visited.has(key)) {
-        return
-      }
-      visited.add(key)
-      combinations.push(currentValues)
+      combinations.push([...currentValues])
       return
     }
-    for (const candidate of candidates) {
-      backtrack(currentSum + candidate, [...currentValues, candidate])
-    }
+    currentValues.push(candidates[currentIndex])
+    backtrack(currentSum + candidates[currentIndex], currentValues, currentIndex)
+    currentValues.pop()
+    backtrack(currentSum, currentValues, currentIndex + 1)
   }
 
-  backtrack(0, [])
+  backtrack(0, [], 0)
 
   return combinations
 };
