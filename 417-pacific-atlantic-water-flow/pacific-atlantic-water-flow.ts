@@ -1,10 +1,10 @@
 function pacificAtlantic(heights: number[][]): number[][] {
-    const visitedPacific = new Set<string>()
-    const visitedAtlantic = new Set<string>()
+    const visitedPacific = new Map<string, number[]>()
+    const visitedAtlantic = new Map<string, number[]>()
     const m = heights.length
     const n = heights[0].length 
 
-    function dfs(row: number, col: number, visited: Set<string>, lastValue: number): void {
+    function dfs(row: number, col: number, visited: Map<string, number[]>, lastValue: number): void {
         const isOutOfBounds = row < 0
             || col < 0
             || row >= m
@@ -23,7 +23,7 @@ function pacificAtlantic(heights: number[][]): number[][] {
         if (visited.has(cacheKey)) {
             return
         }
-        visited.add(cacheKey)
+        visited.set(cacheKey, [row, col])
 
         dfs(row - 1, col, visited, value)
         dfs(row + 1, col, visited, value)
@@ -43,10 +43,9 @@ function pacificAtlantic(heights: number[][]): number[][] {
 
     const answer = []
 
-    for (const value of visitedPacific.values()) {
-        if (visitedAtlantic.has(value)) {
-            const [row, col] = value.split('-')
-            answer.push([row, col])
+    for (const [key, value] of visitedPacific.entries()) {
+        if (visitedAtlantic.has(key)) {
+            answer.push(value)
         }
     }
 
