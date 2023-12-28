@@ -1,66 +1,66 @@
 function orangesRotting(grid: number[][]): number {
-  const directions = [[-1,0], [1,0], [0,-1], [0,1]]
-  const visited = new Set()
+  if (!grid.length) {
+    return -1
+  }
 
-  let queue = findAllRottenOranges(grid)
-  let freshCount = countFreshOranges(grid)
+  const visited = new Set()
+  const directions = [[-1,0], [1,0], [0,-1], [0,1]]
+  let { rottenQueue, freshCount } = getRottenOrangesAndFreshCount(grid)
+
+  if (freshCount === 0) {
+    return 0
+  }
+
   let minutes = -1
 
-  while (queue.length) {
+  while (rottenQueue.length) {
     minutes++
 
-    const queueSize = queue.length
-    for (let i = 0; i < queueSize; i++) {
-      const [currentRow, currentCol] = queue.shift()
+    const length = rottenQueue.length
+    for (let i = 0; i < length; i++) {
+      const [currentRow, currentCol] = rottenQueue.shift()
 
       for (const direction of directions) {
-        const newRow = currentRow + direction[0]
-        const newCol = currentCol + direction[1]
+        const neighborRow = currentRow + direction[0]
+        const neighborCol = currentCol + direction[1]
+        const key = `${neighborRow},${neighborCol}`
 
-        if (grid[newRow]?.[newCol] === 1 && !visited.has(`${newRow},${newCol}`)) {
+        if (visited.has(key)) {
+          continue
+        }
+        visited.add(key)
+
+        if (grid[neighborRow]?.[neighborCol] === 1) {
+          rottenQueue.push([neighborRow, neighborCol])
           freshCount--
-          queue.push([newRow, newCol])
-          visited.add(`${newRow},${newCol}`)
         }
       }
-
-      visited.add(`${currentRow},${currentCol}`)
     }
   }
 
   if (freshCount > 0) {
     return -1
   }
-  if (minutes === -1) {
-    return 0
-  }
+
   return minutes
 };
 
-function findAllRottenOranges(grid: number[][]): number[][] {
-  const rotten = []
-
-  for (let i = 0; i < grid.length; i++) {
-    for (let j = 0; j < grid[0].length; j++) {
-      if (grid[i][j] === 2) {
-        rotten.push([i, j])
-      }
-    }
-  }
-
-  return rotten
-}
-
-function countFreshOranges(grid: number[][]): number {
+function getRottenOrangesAndFreshCount(grid: number[][]) {
+  const rottenQueue = []
   let freshCount = 0
 
-  for (let i = 0; i < grid.length; i++) {
-    for (let j = 0; j < grid[0].length; j++) {
-      if (grid[i][j] === 1) {
+  for (let row = 0; row < grid.length; row++) {
+    for (let col = 0; col < grid[0].length; col++) {
+      if (grid[row][col] === 2) {
+        rottenQueue.push([row, col])
+      } else if (grid[row][col] === 1) {
         freshCount++
       }
     }
   }
 
-  return freshCount
+  return {
+    freshCount,
+    rottenQueue
+  }
 }
