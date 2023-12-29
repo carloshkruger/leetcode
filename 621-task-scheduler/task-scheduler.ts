@@ -1,39 +1,44 @@
 function leastInterval(tasks: string[], n: number): number {
-  if (tasks.length === 0) {
-    return 0
+  if (n === 0) {
+    return tasks.length
   }
 
-  const taskCount = new Map()
+  const tasksCount = new Map()
   for (const task of tasks) {
-    taskCount.set(task, (taskCount.get(task) ?? 0) + 1)
+    tasksCount.set(task, (tasksCount.get(task) ?? 0) + 1)
   }
 
-  const orderedTasks = [...taskCount.entries()].sort((a,b) => a[1]-b[1])
-  const stack = []
+  const orderStack = (stack: any[][]) => {
+    stack.sort((a, b) => a[1] - b[1])
+  }
 
-  let unitTimeCount = 0
+  const stack = [...tasksCount.entries()]
+  orderStack(stack)
 
-  while (orderedTasks.length) {
-    let i = n + 1
-    while (i > 0 && orderedTasks.length) {
-      unitTimeCount++
-      i--
+  let unitsOfTime = 0
+  console.log(stack)
 
-      const [task, count] = orderedTasks.pop()
-      if (count > 1) {
-        stack.push([task, count - 1])
+  while (stack.length) {
+    let currentN = n
+    const auxStack = []
+    while (stack.length && currentN >= 0) {
+      const [key, value] = stack.pop()
+      if (value > 1) {
+        auxStack.push([key, value - 1])
       }
+      unitsOfTime++
+      currentN--
     }
 
-    while (stack.length) {
-      orderedTasks.push(stack.pop())
+    while (auxStack.length) {
+      stack.push(auxStack.pop())
     }
-    orderedTasks.sort((a,b) => a[1]-b[1])
-
-    if (orderedTasks.length) {
-      unitTimeCount += i
+    orderStack(stack)
+    
+    if (stack.length) {
+      unitsOfTime += (currentN + 1)
     }
   }
 
-  return unitTimeCount
+  return unitsOfTime
 };
