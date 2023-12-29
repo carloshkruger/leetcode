@@ -1,43 +1,39 @@
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
-  const inDegree = new Map()
-  const graph = new Map()
-
+  const graph = {}
+  const inDegree = {}
   for (let i = 0; i < numCourses; i++) {
-    inDegree.set(i, 0)
+    graph[i] = []
+    inDegree[i] = 0
   }
 
-  for (const [destiny, source] of prerequisites) {
-    inDegree.set(destiny, inDegree.get(destiny) + 1)
-    const list = graph.get(source) ?? []
-    list.push(destiny)
-    graph.set(source, list)
+  for (const prerequisite of prerequisites) {
+    inDegree[prerequisite[0]]++
+    graph[prerequisite[1]].push(prerequisite[0])
   }
-  
+
   const queue = []
-  for (const [key, value] of inDegree.entries()) {
-    if (value === 0) {
+  for (const key in inDegree) {
+    if (inDegree[key] === 0) {
       queue.push(key)
     }
   }
-  
-  const answer = []
+
+  const sortedList = []
   while (queue.length) {
     const current = queue.shift()
-    answer.push(current)
-    inDegree.delete(current)
-    if (graph.has(current)) {
-      for (const item of graph.get(current)) {
-        inDegree.set(item, inDegree.get(item) - 1)
-        if (inDegree.get(item) === 0) {
-          queue.push(item)
-        } 
+    sortedList.push(current)
+
+    for (const child of graph[current]) {
+      inDegree[child]--
+      if (inDegree[child] === 0) {
+        queue.push(child)
       }
     }
   }
-  
-  if (inDegree.size > 0) {
-    return []
+
+  if (sortedList.length === numCourses) {
+    return sortedList
   }
 
-  return answer
+  return []
 };
