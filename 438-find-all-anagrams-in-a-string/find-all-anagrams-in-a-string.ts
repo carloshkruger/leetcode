@@ -1,52 +1,45 @@
 function findAnagrams(s: string, p: string): number[] {
-  if (p.length > s.length) {
-    return []
-  }
-
-  const answer = []
-
-  let leftIndex = 0
-  let currentSubString = ''
-
-  const currentSubStringCount = new Map<string, number>()
-  const pLetterCount = new Map<string, number>()
-  for (const letter of p) {
-    pLetterCount.set(letter, (pLetterCount.get(letter) ?? 0) + 1)
-  }
-
-  for (let rightIndex = 0; rightIndex < s.length; rightIndex++) {
-    currentSubString = `${currentSubString}${s[rightIndex]}`
-    currentSubStringCount.set(s[rightIndex], (currentSubStringCount.get(s[rightIndex]) ?? 0) + 1)
-
-    if (currentSubString.length === p.length) {
-      if (isAnagram(currentSubStringCount, pLetterCount)) {
-        answer.push(leftIndex)
-      }
-      currentSubString = currentSubString.substring(1)
-      const count = currentSubStringCount.get(s[leftIndex])
-      if (count === 1) {
-        currentSubStringCount.delete(s[leftIndex]) 
-      } else {
-        currentSubStringCount.set(s[leftIndex], count - 1)
-      }
-      leftIndex++
+    const pCharCount = new Map()
+    for (const char of p) {
+        pCharCount.set(char, (pCharCount.get(char) ?? 0) + 1)
     }
-  }
 
-  return answer
+    let leftIndex = 0
+    let count = 0
+    const answer = []
+    const currentCharCount = new Map()
+
+    for (let i = 0; i < s.length; i++) {
+        currentCharCount.set(s[i], (currentCharCount.get(s[i]) ?? 0) + 1)
+        count++
+
+        if (count >= p.length) {
+            if (isAnagram(pCharCount, currentCharCount)) {
+                answer.push(leftIndex)
+            }
+            const newCount = currentCharCount.get(s[leftIndex]) - 1
+            if (newCount === 0) {
+                currentCharCount.delete(s[leftIndex])
+            } else {
+                currentCharCount.set(s[leftIndex], newCount)
+            }
+            leftIndex++
+        }
+    }
+
+    return answer
 };
 
-function isAnagram(
-  currentSubStringCount: Map<string, number>,
-  pLetterCount: Map<string, number>
-): boolean {
-  if (currentSubStringCount.size !== pLetterCount.size) {
-    return false
-  }
-  for (const [key, count] of currentSubStringCount) {
-    if (!pLetterCount.has(key) || pLetterCount.get(key) !== count) {
-      return false
+function isAnagram(map1: Map<string, number>, map2: Map<string, number>): boolean {
+    if (map1.size !== map2.size) {
+        return false
     }
-  }
-  return true
+
+    for (const [key, value] of map1.entries()) {
+        if (!map2.has(key) || map2.get(key) !== value) {
+            return false
+        }
+    }
+
+    return true
 }
