@@ -16,7 +16,6 @@ function leastInterval(tasks: string[], n: number): number {
   orderStack(stack)
 
   let unitsOfTime = 0
-  console.log(stack)
 
   while (stack.length) {
     let currentN = n
