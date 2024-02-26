@@ -16,7 +16,7 @@ function isBalanced(root: TreeNode | null): boolean {
   let isTreeBalanced = true
 
   function heightTree(root: TreeNode | null): number {
-    if (!root) {
+    if (!root || !isTreeBalanced) {
       return 0
     }
     const leftHeight = heightTree(root.left) + 1
