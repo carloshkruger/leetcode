@@ -1,21 +1,20 @@
 function canConstruct(ransomNote: string, magazine: string): boolean {
-    const lettersCount = new Map()
-    for (const letter of magazine) {
-        lettersCount.set(letter, (lettersCount.get(letter) ?? 0) + 1)
+  const magazineLetterCount = new Map()
+  for (const char of magazine) {
+    magazineLetterCount.set(char, (magazineLetterCount.get(char) ?? 0) + 1)
+  }
+
+  for (const char of ransomNote) {
+    if (!magazineLetterCount.has(char)) {
+      return false
     }
-
-    for (const letter of ransomNote) {
-        if (!lettersCount.has(letter)) {
-            return false
-        }
-        const newLetterCount = lettersCount.get(letter) - 1
-
-        if (newLetterCount === 0) {
-            lettersCount.delete(letter)
-        } else {
-            lettersCount.set(letter, newLetterCount)
-        }
+    const newCount = magazineLetterCount.get(char) - 1
+    if (newCount === 0) {
+      magazineLetterCount.delete(char)
+    } else {
+      magazineLetterCount.set(char, newCount)
     }
+  }
 
-    return true
+  return true
 };
