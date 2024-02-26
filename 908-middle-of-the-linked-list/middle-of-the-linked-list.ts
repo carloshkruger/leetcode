@@ -11,13 +11,13 @@
  */
 
 function middleNode(head: ListNode | null): ListNode | null {
-    let fasterNode = head
-    let slowerNode = head
+  let slowPointer = head
+  let fastPointer = head
 
-    while (fasterNode && fasterNode.next) {
-        slowerNode = slowerNode.next
-        fasterNode = fasterNode.next.next
-    }
+  while (fastPointer && fastPointer.next) {
+    slowPointer = slowPointer.next
+    fastPointer = fastPointer.next.next
+  }
 
-    return slowerNode
+  return slowPointer
 };
