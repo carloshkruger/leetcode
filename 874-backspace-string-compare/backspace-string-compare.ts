@@ -1,32 +1,15 @@
 function backspaceCompare(s: string, t: string): boolean {
-    const sStack = []
-    const tStack = []
-
-    for (const char of s) {
-        if (char === '#') {
-            sStack.pop()
-        } else {
-            sStack.push(char)
-        }
-    }
-
-    for (const char of t) {
-        if (char === '#') {
-            tStack.pop()
-        } else {
-            tStack.push(char)
-        }
-    }
-
-    if (sStack.length !== tStack.length) {
-        return false
-    }
-
-    while (sStack.length) {
-        if (sStack.pop() !== tStack.pop()) {
-            return false
-        }
-    }
-
-    return true
+  return formatText(s) === formatText(t)
 };
+
+function formatText(text: string): string {
+  const stack = []
+  for (const char of text) {
+    if (char === '#') {
+      stack.pop()
+    } else {
+      stack.push(char)
+    }
+  }
+  return stack.join('')
+}
