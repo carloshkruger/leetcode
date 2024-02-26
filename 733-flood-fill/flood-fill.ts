@@ -1,22 +1,23 @@
 function floodFill(image: number[][], sr: number, sc: number, color: number): number[][] {
+  const targetColor = image[sr][sc]
   const visited = new Set()
-  const originalValue = image[sr][sc]
 
-  function bfs(row: number, col: number) {
-    const value = image[row]?.[col]
-    const isOutOfBounds = value === undefined
-    if (isOutOfBounds) {
+  function bfs(row: number, col: number): void {
+    if (row < 0 || row >= image.length || col < 0 || col >= image[0].length) {
       return
     }
-    const cacheKey = `${row}-${col}`
-    if (visited.has(cacheKey)) {
-      return 
-    }
-    visited.add(cacheKey)
-
-    if (value !== originalValue) {
+    if (image[row][col] !== targetColor) {
       return
     }
+    if (image[row][col] === color) {
+      return
+    }
+
+    const key = `${row},${col}`
+    if (visited.has(key)) {
+      return
+    }
+    visited.add(key)
 
     image[row][col] = color
 
