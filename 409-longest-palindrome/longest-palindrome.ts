@@ -1,25 +1,24 @@
 function longestPalindrome(s: string): number {
-    const charCount = new Map()
-    
-    for (const char of s) {
-        charCount.set(char, (charCount.get(char) ?? 0) + 1)
-    }
-    
-    let longest = 0
-    let hasOddCount = false
+  const charCount = new Map()
+  for (const char of s) {
+    charCount.set(char, (charCount.get(char)??0)+1)
+  }
 
-    for (const count of charCount.values()) {
-        if (count % 2 === 0) {
-            longest += count
-        } else {
-            hasOddCount = true
-            longest += count - 1
-        }
-    }
+  let longest = 0
+  let hasOddCount = false
 
-    if (hasOddCount) {
-        longest++
+  for (const count of charCount.values()) {
+    if (count % 2 === 0) {
+      longest += count
+    } else {
+      longest += (count - 1)
+      hasOddCount = true
     }
+  }
 
-    return longest
+  if (hasOddCount) {
+    longest++
+  }
+
+  return longest
 };
