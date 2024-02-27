@@ -1,25 +1,26 @@
 class MinStack {
-    private data: { value: number, minValue: number }[] = []
+  private stack: {val: number, minVal: number}[] = []
 
-    push(val: number): void {
-        let currentMinValue = this.data.length 
-            ? this.data[this.data.length - 1].minValue
-            : val
-        currentMinValue = Math.min(currentMinValue, val)
-        this.data.push({ value: val, minValue: currentMinValue })
-    }
+  push(val: number): void {
+    if (!this.stack.length) {
+      this.stack.push({ val, minVal: val })
+    } else {
+      const minVal = Math.min(val, this.stack.at(-1).minVal)
+      this.stack.push({ val, minVal })
+    } 
+  }
 
-    pop(): void {
-        this.data.pop()
-    }
+  pop(): void {
+    this.stack.pop()
+  }
 
-    top(): number {
-        return this.data[this.data.length - 1].value
-    }
+  top(): number {
+    return this.stack.at(-1).val
+  }
 
-    getMin(): number {
-        return this.data[this.data.length - 1].minValue
-    }
+  getMin(): number {
+    return this.stack.at(-1).minVal
+  }
 }
 
 /**
