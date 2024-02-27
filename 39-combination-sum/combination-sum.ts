@@ -1,21 +1,22 @@
 function combinationSum(candidates: number[], target: number): number[][] {
-  const combinations = []
+  const list = []
 
-  function backtrack(currentSum: number, currentValues: number[], currentIndex: number): void {
-    if (currentSum > target || currentIndex >= candidates.length) {
+  function backtrack(current: number[], sum: number, index: number) {
+    if (sum === target) {
+      list.push(current)
       return
     }
-    if (currentSum === target) {
-      combinations.push([...currentValues])
+    if (sum > target) {
       return
     }
-    currentValues.push(candidates[currentIndex])
-    backtrack(currentSum + candidates[currentIndex], currentValues, currentIndex)
-    currentValues.pop()
-    backtrack(currentSum, currentValues, currentIndex + 1)
+    if (index >= candidates.length) {
+      return
+    }
+    backtrack([...current, candidates[index]], sum + candidates[index], index)
+    backtrack([...current], sum, index + 1)
   }
 
-  backtrack(0, [], 0)
+  backtrack([], 0, 0)
 
-  return combinations
+  return list
 };
