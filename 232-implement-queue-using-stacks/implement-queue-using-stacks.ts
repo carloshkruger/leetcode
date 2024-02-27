@@ -1,31 +1,41 @@
 class MyQueue {
-    private s1: number[] = []
-    private s2: number[] = []
+  private stack = []
 
-    push(x: number): void {
-        this.s1.push(x)
-    }
+  constructor() {
+      
+  }
 
-    pop(): number {
-        if (this.s2.length) {
-            return this.s2.pop()
-        }
-        while (this.s1.length) {
-            this.s2.push(this.s1.pop())
-        }
-        return this.s2.pop()
-    }
+  push(x: number): void {
+    this.stack.push(x)
+  }
 
-    peek(): number {
-        if (this.s2.length) {
-            return this.s2[this.s2.length - 1]
-        }
-        return this.s1[0]
+  pop(): number {
+    const auxStack = []
+    while (this.stack.length) {
+      auxStack.push(this.stack.pop())
     }
+    const valueToReturn = auxStack.pop()
+    while (auxStack.length) {
+      this.stack.push(auxStack.pop())
+    }
+    return valueToReturn
+  }
 
-    empty(): boolean {
-        return this.s1.length === 0 && this.s2.length === 0
+  peek(): number {
+    const auxStack = []
+    while (this.stack.length) {
+      auxStack.push(this.stack.pop())
     }
+    const valueToReturn = auxStack.at(-1)
+    while (auxStack.length) {
+      this.stack.push(auxStack.pop())
+    }
+    return valueToReturn
+  }
+
+  empty(): boolean {
+    return this.stack.length === 0
+  }
 }
 
 /**
