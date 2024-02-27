@@ -1,37 +1,37 @@
 function canFinish(numCourses: number, prerequisites: number[][]): boolean {
-  if (!prerequisites.length) {
-    return true
-  }
+  const inbound = {}
+  const graph = {}
 
-  const indegree: number[] = new Array(numCourses).fill(0);
-  const graph: number[][] = new Array(numCourses).fill([]).map(() => []);
+  for (let i = 0; i < numCourses; i++) {
+    graph[i] = []
+  }
 
   for (const prerequisite of prerequisites) {
-    graph[prerequisite[1]].push(prerequisite[0]);
-    indegree[prerequisite[0]] += 1;
+    if (!(prerequisite[0] in inbound)) {
+      inbound[prerequisite[0]] = 0
+    }
+    graph[prerequisite[1]].push(prerequisite[0])
+    inbound[prerequisite[0]]++
   }
 
-  const sourcesQueue = []
+  const queue = []
   for (let i = 0; i < numCourses; i++) {
-    if (indegree[i] == 0) {
-      sourcesQueue.push(i);
+    if (!(i in inbound)) {
+      queue.push(i)
     }
   }
 
-  let count = 0
+  while (queue.length) {
+    const item = String(queue.shift())
 
-  while (sourcesQueue.length) {
-    const current = sourcesQueue.shift()
-    count++
-
-    for (const child of graph[current]) {
-      indegree[child]--
-      if (indegree[child] === 0) {
-        sourcesQueue.push(child)
+    for (const destiny of graph[item]) {
+      inbound[destiny] -= 1
+      if (inbound[destiny] === 0) {
+        delete inbound[destiny]
+        queue.push(destiny)
       }
     }
   }
 
-  return count === numCourses
+  return Object.keys(inbound).length === 0
 };
-
