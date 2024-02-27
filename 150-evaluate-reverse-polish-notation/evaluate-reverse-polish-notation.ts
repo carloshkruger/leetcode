@@ -1,25 +1,24 @@
 function evalRPN(tokens: string[]): number {
-    const operators = ['+', '-', '*', '/']
-    const stack = []
+  const stack = []
 
-    for (const token of tokens) {
-        if (!operators.includes(token)) {
-            stack.push(token)
-        } else {
-            const rightNumber = Number(stack.pop())
-            const leftNumber = Number(stack.pop())
+  for (const char of tokens) {
+    if (!['+', '-', '*', '/'].includes(char)) {
+      stack.push(Number(char))
+    } else {
+      const rightValue = Number(stack.pop())
+      const leftValue = Number(stack.pop())
 
-            if (token === '+') {
-                stack.push(leftNumber + rightNumber)
-            } else if (token === '-') {
-                stack.push(leftNumber - rightNumber)
-            } else if (token === '*') {
-                stack.push(leftNumber * rightNumber)
-            } else {
-                stack.push(parseInt((leftNumber / rightNumber).toString()))
-            }
-        }
+      if (char === '+') {
+        stack.push(leftValue + rightValue)
+      } else if (char === '-') {
+        stack.push(leftValue - rightValue)
+      } else if (char === '*') {
+        stack.push(leftValue * rightValue)
+      } else if (char === '/') {
+        stack.push(parseInt((leftValue / rightValue).toString()))
+      }
     }
+  }
 
-    return stack.pop()
+  return stack.pop()
 };
