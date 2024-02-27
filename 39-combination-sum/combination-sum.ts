@@ -3,7 +3,7 @@ function combinationSum(candidates: number[], target: number): number[][] {
 
   function backtrack(current: number[], sum: number, index: number) {
     if (sum === target) {
-      list.push(current)
+      list.push([...current])
       return
     }
     if (sum > target) {
@@ -12,8 +12,10 @@ function combinationSum(candidates: number[], target: number): number[][] {
     if (index >= candidates.length) {
       return
     }
-    backtrack([...current, candidates[index]], sum + candidates[index], index)
-    backtrack([...current], sum, index + 1)
+    current.push(candidates[index])
+    backtrack(current, sum + candidates[index], index)
+    current.pop()
+    backtrack(current, sum, index + 1)
   }
 
   backtrack([], 0, 0)
