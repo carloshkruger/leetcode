@@ -5,22 +5,22 @@ function merge(intervals: number[][]): number[][] {
 
   intervals.sort((a, b) => a[0] - b[0])
 
-  const mergedIntervals = []
   let start = intervals[0][0]
   let end = intervals[0][1]
 
+  const list = []
+
   for (let i = 1; i < intervals.length; i++) {
-    const current = intervals[i]
-    if (current[0] <= end) {
-      end = Math.max(end, current[1])
+    if (intervals[i][0] > end) {
+      list.push([start, end])
+      start = intervals[i][0]
+      end = intervals[i][1]
     } else {
-      mergedIntervals.push([start, end])
-      start = current[0]
-      end = current[1]
+      end = Math.max(end, intervals[i][1])
     }
   }
 
-  mergedIntervals.push([start, end])
+  list.push([start, end])
 
-  return mergedIntervals
+  return list
 };
