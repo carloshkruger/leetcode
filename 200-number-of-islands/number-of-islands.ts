@@ -1,13 +1,12 @@
 function numIslands(grid: string[][]): number {
-  let count = 0
   const visited = new Set()
 
-  function dfs(row: number, col: number) {
-    const isOutOfBounds = row < 0
-      || row >= grid.length
-      || col < 0
-      || col >= grid[0].length
-    if (isOutOfBounds) {
+  function bfs(row: number, col: number): boolean {
+    if (row < 0 || col < 0 || row >= grid.length || col >= grid[0].length) {
+      return false
+    }
+
+    if (grid[row][col] === '0') {
       return false
     }
 
@@ -17,21 +16,19 @@ function numIslands(grid: string[][]): number {
     }
     visited.add(cacheKey)
 
-    if (grid[row][col] === '0') {
-      return false
-    }
-
-    dfs(row + 1, col)
-    dfs(row - 1, col)
-    dfs(row, col + 1)
-    dfs(row, col - 1)
+    bfs(row + 1, col)
+    bfs(row - 1, col)
+    bfs(row, col + 1)
+    bfs(row, col - 1)
 
     return true
   }
 
+  let count = 0
+
   for (let row = 0; row < grid.length; row++) {
     for (let col = 0; col < grid[0].length; col++) {
-      if (dfs(row, col)) {
+      if (bfs(row, col)) {
         count++
       }
     }
