@@ -1,45 +1,39 @@
 function findAnagrams(s: string, p: string): number[] {
-    const pCharCount = new Map()
-    for (const char of p) {
-        pCharCount.set(char, (pCharCount.get(char) ?? 0) + 1)
-    }
+  const pCount = new Map()
+  for (const char of p) {
+    pCount.set(char, (pCount.get(char) ?? 0) + 1)
+  }
 
-    let leftIndex = 0
-    let count = 0
-    const answer = []
-    const currentCharCount = new Map()
+  const answer = []
+  const currentCount = new Map()
+  let leftIndex = 0
+  let count = 0
 
-    for (let i = 0; i < s.length; i++) {
-        currentCharCount.set(s[i], (currentCharCount.get(s[i]) ?? 0) + 1)
-        count++
+  for (let i = 0; i < s.length; i++) {
+    currentCount.set(s[i], (currentCount.get(s[i])??0)+1)
+    count++
 
-        if (count >= p.length) {
-            if (isAnagram(pCharCount, currentCharCount)) {
-                answer.push(leftIndex)
-            }
-            const newCount = currentCharCount.get(s[leftIndex]) - 1
-            if (newCount === 0) {
-                currentCharCount.delete(s[leftIndex])
-            } else {
-                currentCharCount.set(s[leftIndex], newCount)
-            }
-            leftIndex++
+    if (count >= p.length) {
+      let isAnagram = true
+      for (const [key, count] of pCount.entries()) {
+        if (!currentCount.has(key) || currentCount.get(key) !== count) {
+          isAnagram = false
+          break;
         }
-    }
+      }
+      const newCount = currentCount.get(s[leftIndex]) - 1
+      if (newCount === 0) {
+        currentCount.delete(s[leftIndex])
+      } else {
+        currentCount.set(s[leftIndex], newCount)
+      }
+      leftIndex++
 
-    return answer
+      if (isAnagram) {
+        answer.push(i - p.length + 1)
+      }
+    }
+  }
+
+  return answer
 };
-
-function isAnagram(map1: Map<string, number>, map2: Map<string, number>): boolean {
-    if (map1.size !== map2.size) {
-        return false
-    }
-
-    for (const [key, value] of map1.entries()) {
-        if (!map2.has(key) || map2.get(key) !== value) {
-            return false
-        }
-    }
-
-    return true
-}
