@@ -1,20 +1,20 @@
 function canCompleteCircuit(gas: number[], cost: number[]): number {
-  let totalGas = 0
-  let currentGas = 0
-  let answer = 0
+  let totalBalance = 0
+  let startIndex = 0
+  let currentBalance = 0
 
   for (let i = 0; i < gas.length; i++) {
-    totalGas += gas[i] - cost[i]
-    currentGas += gas[i] - cost[i]
+    totalBalance += gas[i] - cost[i]
+    currentBalance += gas[i] - cost[i]
 
-    if (currentGas < 0) {
-      currentGas = 0
-      answer = i + 1
+    if (currentBalance < 0) {
+      startIndex = i + 1
+      currentBalance = 0
     }
   }
 
-  if (totalGas < 0) {
+  if (totalBalance < 0) {
     return -1
   }
-  return answer
+  return startIndex
 };
