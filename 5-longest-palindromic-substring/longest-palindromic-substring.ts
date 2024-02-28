@@ -1,20 +1,20 @@
 function longestPalindrome(s: string): string {
   let longest = ''
 
-  function checkLongest(leftIndex: number, rightIndex: number): void {
-    while (leftIndex >= 0 && rightIndex < s.length && s[leftIndex] === s[rightIndex]) {
-      leftIndex--
-      rightIndex++
+  function checkLongestPalindrome(left: number, right: number): void {
+    while (left >= 0 && right < s.length && s[left] === s[right]) {
+      left--
+      right++
     }
 
-    if (rightIndex - leftIndex - 1 > longest.length) {
-      longest = s.substring(leftIndex + 1, rightIndex)
+    if (right - left - 1 >= longest.length) {
+      longest = s.substring(left + 1, right)
     }
   }
 
   for (let i = 0; i < s.length; i++) {
-    checkLongest(i - 1, i + 1)
-    checkLongest(i - 1, i)
+    checkLongestPalindrome(i - 1, i + 1)
+    checkLongestPalindrome(i, i + 1)
   }
 
   return longest
