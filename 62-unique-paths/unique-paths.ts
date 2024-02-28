@@ -1,22 +1,20 @@
 function uniquePaths(m: number, n: number): number {
-    const cache = new Map()
+  const cache = {}
 
-    function dp(m: number, n: number): number {
-        if (m < 0 || n < 0) {
-            return 0
-        }
-        if (m === 0 && n === 0) {
-            return 1
-        }
-        const key = `${m}-${n}`
-        if (cache.has(key)) {
-            return cache.get(key)
-        }
-        
-        const result = dp(m - 1, n) + dp(m, n - 1)
-        cache.set(key, result)
-        return result
+  function helper(m: number, n: number): number {
+    const cacheKey = `${m},${n}`
+    if (cacheKey in cache) {
+      return cache[cacheKey]
     }
+    if (m === 0 && n === 0) {
+      return 1
+    }
+    if (m < 0 || n < 0) {
+      return 0
+    }
+    cache[cacheKey] = helper(m - 1, n) + helper(m, n - 1)
+    return cache[cacheKey]
+  }
 
-    return dp(m-1, n-1)
+  return helper(m - 1, n - 1)
 };
