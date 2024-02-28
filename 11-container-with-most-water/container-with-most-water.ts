@@ -1,21 +1,21 @@
 function maxArea(height: number[]): number {
-  let maximumAmount = 0
-  let leftIndex = 0
-  let rightIndex = height.length - 1
+  let maxAmount = 0
+  let left = 0
+  let right = height.length - 1
 
-  while (leftIndex < rightIndex) {
-    const minHeight = Math.min(height[leftIndex], height[rightIndex])
-    const distance = rightIndex - leftIndex
+  while (left < right) {
+    const minHeight = Math.min(height[left], height[right])
+    const distance = right - left
     const currentAmount = minHeight * distance
 
-    maximumAmount = Math.max(maximumAmount, currentAmount)
+    maxAmount = Math.max(maxAmount, currentAmount)
 
-    if (height[leftIndex] > height[rightIndex]) {
-      rightIndex--
+    if (height[left] > height[right]) {
+      right--
     } else {
-      leftIndex++
+      left++
     }
   }
 
-  return maximumAmount
+  return maxAmount
 };
