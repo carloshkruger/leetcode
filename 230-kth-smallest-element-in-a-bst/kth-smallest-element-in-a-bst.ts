@@ -15,16 +15,20 @@
 function kthSmallest(root: TreeNode | null, k: number): number {
   let value = null
 
-  function dfs(root: TreeNode | null) {
+  function dfs(root: TreeNode | null): void {
     if (!root || value !== null) {
       return
     }
-    dfs(root.left)
+    if (root.left) {
+      dfs(root.left)
+    }
     k--
     if (k === 0) {
       value = root.val
     }
-    dfs(root.right)
+    if (root.right) {
+      dfs(root.right)
+    }
   }
 
   dfs(root)
