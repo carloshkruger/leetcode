@@ -3,41 +3,42 @@ function leastInterval(tasks: string[], n: number): number {
     return tasks.length
   }
 
-  const tasksCount = new Map()
+  const frequencyMap = new Map()
   for (const task of tasks) {
-    tasksCount.set(task, (tasksCount.get(task) ?? 0) + 1)
+    frequencyMap.set(task, (frequencyMap.get(task) ?? 0) + 1)
   }
+  let frequencyList = [...frequencyMap.entries()]
 
-  const orderStack = (stack: any[][]) => {
-    stack.sort((a, b) => a[1] - b[1])
+  const orderFrequencyList = () => {
+    frequencyList = frequencyList.sort((a,b) => b[1] - a[1])
   }
+  orderFrequencyList()
 
-  const stack = [...tasksCount.entries()]
-  orderStack(stack)
+  console.log(frequencyList)
 
-  let unitsOfTime = 0
-
-  while (stack.length) {
-    let currentN = n
-    const auxStack = []
-    while (stack.length && currentN >= 0) {
-      const [key, value] = stack.pop()
-      if (value > 1) {
-        auxStack.push([key, value - 1])
+  let intervals = 0
+  while (frequencyList.length) {
+    let coolingTime = n + 1
+    let stack = []
+  
+    while (coolingTime > 0 && frequencyList.length) {
+      intervals++
+      const [task, frequencyCount] = frequencyList.shift()
+      if (frequencyCount > 1) {
+        stack.push([task, frequencyCount - 1])
       }
-      unitsOfTime++
-      currentN--
+      coolingTime--
     }
 
-    while (auxStack.length) {
-      stack.push(auxStack.pop())
+    while (stack.length) {
+      frequencyList.push(stack.pop())
     }
-    orderStack(stack)
-    
-    if (stack.length) {
-      unitsOfTime += (currentN + 1)
+    orderFrequencyList()
+
+    if (frequencyList.length) {
+      intervals += coolingTime
     }
   }
 
-  return unitsOfTime
+  return intervals
 };
