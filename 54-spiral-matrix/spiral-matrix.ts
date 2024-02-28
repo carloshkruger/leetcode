@@ -1,37 +1,36 @@
 function spiralOrder(matrix: number[][]): number[] {
+  const valuesCount = matrix.length * matrix[0].length
+  const list = []
   let left = 0
-  let right = matrix[0].length - 1
   let top = 0
+  let right = matrix[0].length - 1
   let bottom = matrix.length - 1
 
-  const answer = []
-  const matrixLength = matrix.length * matrix[0].length
-
-  while (answer.length < matrixLength) {
-    // Going right
-    for (let i = left; i <= right && answer.length < matrixLength; i++) {
-      answer.push(matrix[top][i])
+  while (list.length < valuesCount) {
+    // going right
+    for (let i = left; i <= right && list.length < valuesCount; i++) {
+      list.push(matrix[top][i])
     }
     top++
 
-    // Going down
-    for (let i = top; i <= bottom && answer.length < matrixLength; i++) {
-      answer.push(matrix[i][right])
+    // going down
+    for (let i = top; i <= bottom && list.length < valuesCount; i++) {
+      list.push(matrix[i][right])
     }
     right--
 
-    // Going left
-    for (let i = right; i >= left && answer.length < matrixLength; i--) {
-      answer.push(matrix[bottom][i])
+    // going left
+    for (let i = right; i >= left && list.length < valuesCount; i--) {
+      list.push(matrix[bottom][i])
     }
     bottom--
 
-    // Going up
-    for (let i = bottom; i >= top && answer.length < matrixLength; i--) {
-      answer.push(matrix[i][left])
+    // going up
+    for (let i = bottom; i >= top && list.length < valuesCount; i--) {
+      list.push(matrix[i][left])
     }
     left++
   }
 
-  return answer
+  return list
 };
