@@ -14,8 +14,6 @@ function leastInterval(tasks: string[], n: number): number {
   }
   orderFrequencyList()
 
-  console.log(frequencyList)
-
   let intervals = 0
   while (frequencyList.length) {
     let coolingTime = n + 1
