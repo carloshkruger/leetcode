@@ -1,12 +1,13 @@
 function groupAnagrams(strs: string[]): string[][] {
-    const anagrams = new Map()
+  const group = {}
 
-    for (const str of strs) {
-        const sortedStr = str.split('').sort().join('')
-        const group = anagrams.get(sortedStr) ?? []
-        group.push(str)
-        anagrams.set(sortedStr, group)
+  for (const str of strs) {
+    const orderedStr = str.split('').sort().join('')
+    if (!(orderedStr in group)) {
+      group[orderedStr] = []
     }
+    group[orderedStr].push(str)
+  }
 
-    return [...anagrams.values()]
+  return Object.values(group)
 };
