@@ -1,53 +1,46 @@
 function pacificAtlantic(heights: number[][]): number[][] {
-    const visitedPacific = new Map<string, number[]>()
-    const visitedAtlantic = new Map<string, number[]>()
-    const m = heights.length
-    const n = heights[0].length 
+  const pacificSet = new Set<string>()
+  const atlanticSet = new Set<string>()
+  const rowLength = heights.length - 1
+  const colLength = heights[0].length - 1
 
-    function dfs(row: number, col: number, visited: Map<string, number[]>, lastValue: number): void {
-        const isOutOfBounds = row < 0
-            || col < 0
-            || row >= m
-            || col >= n
-        if (isOutOfBounds) {
-            return
-        }
-
-        const value = heights[row][col]
-
-        if (value < lastValue) {
-            return
-        }
-
-        const cacheKey = `${row}-${col}`
-        if (visited.has(cacheKey)) {
-            return
-        }
-        visited.set(cacheKey, [row, col])
-
-        dfs(row - 1, col, visited, value)
-        dfs(row + 1, col, visited, value)
-        dfs(row, col - 1, visited, value)
-        dfs(row, col + 1, visited, value)
+  function bfs(row: number, col: number, set: Set<string>, prevValue: number): void {
+    if (row < 0 || col < 0 || row > rowLength || col > colLength) {
+      return
+    }
+    if (prevValue > heights[row][col]) {
+      return
     }
 
-    for (let i = 0; i < n; i++) {
-        dfs(0, i, visitedPacific, heights[0][i])
-        dfs(m-1, i, visitedAtlantic, heights[m-1][i])
+    const cacheKey = `${row},${col}`
+    if (set.has(cacheKey)) {
+      return
     }
+    set.add(cacheKey)
 
-    for (let i = 0; i < m; i++) {
-        dfs(i, 0, visitedPacific, heights[i][0])
-        dfs(i, n-1, visitedAtlantic, heights[i][n-1])
+    bfs(row + 1, col, set, heights[row][col])
+    bfs(row - 1, col, set, heights[row][col])
+    bfs(row, col + 1, set, heights[row][col])
+    bfs(row, col - 1, set, heights[row][col])
+  }
+
+  for (let i = 0; i <= rowLength; i++) {
+    bfs(i, 0, pacificSet, heights[i][0])
+    bfs(i, colLength, atlanticSet, heights[i][colLength])
+  }
+
+  for (let i = 0; i <= colLength; i++) {
+    bfs(0, i, pacificSet, heights[0][i])
+    bfs(rowLength, i, atlanticSet, heights[rowLength][i])
+  }
+
+  const answer = []
+
+  for (const coordinates of pacificSet.values()) {
+    if (atlanticSet.has(coordinates)) {
+      answer.push(coordinates.split(','))
     }
+  }
 
-    const answer = []
-
-    for (const [key, value] of visitedPacific.entries()) {
-        if (visitedAtlantic.has(key)) {
-            answer.push(value)
-        }
-    }
-
-    return answer
+  return answer
 };
