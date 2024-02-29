@@ -1,39 +1,42 @@
 function findOrder(numCourses: number, prerequisites: number[][]): number[] {
+  const inboundCount = {}
   const graph = {}
-  const inDegree = {}
+
   for (let i = 0; i < numCourses; i++) {
     graph[i] = []
-    inDegree[i] = 0
+    inboundCount[i] = 0
   }
 
   for (const prerequisite of prerequisites) {
-    inDegree[prerequisite[0]]++
+    inboundCount[prerequisite[0]]++
     graph[prerequisite[1]].push(prerequisite[0])
   }
 
-  const queue = []
-  for (const key in inDegree) {
-    if (inDegree[key] === 0) {
-      queue.push(key)
+  const sourcesQueue = []
+  for (let i = 0; i < numCourses; i++) {
+    if (inboundCount[i] === 0) {
+      sourcesQueue.push(i)
     }
   }
 
-  const sortedList = []
-  while (queue.length) {
-    const current = queue.shift()
-    sortedList.push(current)
+  const answer = []
+  let count = 0
+  while (sourcesQueue.length) {
+    count++
+    
+    const course = sourcesQueue.shift()
+    answer.push(course)
 
-    for (const child of graph[current]) {
-      inDegree[child]--
-      if (inDegree[child] === 0) {
-        queue.push(child)
+    for (const child of graph[course]) {
+      inboundCount[child]--
+      if (inboundCount[child] === 0) {
+        sourcesQueue.push(child)
       }
     }
   }
 
-  if (sortedList.length === numCourses) {
-    return sortedList
+  if (count === numCourses) {
+    return answer
   }
-
   return []
 };
