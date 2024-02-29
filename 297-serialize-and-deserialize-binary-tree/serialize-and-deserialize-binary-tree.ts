@@ -12,37 +12,42 @@
  * }
  */
 
-const SEPARATOR = ';'
-const PLACEHOLDER = '#'
+const DELIMITER = ','
+const EMPTY_REPLACEMENT = '#'
 
 /*
  * Encodes a tree to a single string.
  */
 function serialize(root: TreeNode | null): string {
   if (!root) {
-    return `${PLACEHOLDER}${SEPARATOR}`
+    return EMPTY_REPLACEMENT
   }
-  return `${root.val}${SEPARATOR}${serialize(root.left)}${serialize(root.right)}`
+  return `${root.val}${DELIMITER}${serialize(root.left)}${DELIMITER}${serialize(root.right)}`
 };
 
 /*
  * Decodes your encoded data to tree.
  */
 function deserialize(data: string): TreeNode | null {
-  const list = data.split(SEPARATOR).reverse()
+  const list = data.split(DELIMITER).reverse()
 
-  function helper(list: string[]): TreeNode | null {
-    const current = list.pop()
-    if (current === PLACEHOLDER) {
+  function helper(): TreeNode | null {
+    if (!list.length) {
       return null
     }
-    const node = new TreeNode(Number(current))
-    node.left = helper(list)
-    node.right = helper(list)
+    const value = list.pop()
+    if (value === EMPTY_REPLACEMENT) {
+      return null
+    }
+
+    const node = new TreeNode(Number(value))
+    node.left = helper()
+    node.right = helper()
+
     return node
   }
 
-  return helper(list)
+  return helper()
 };
 
 
