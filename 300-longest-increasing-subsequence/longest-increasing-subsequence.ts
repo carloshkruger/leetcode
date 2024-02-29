@@ -3,8 +3,8 @@ function lengthOfLIS(nums: number[]): number {
     return 0
   }
 
-  const table = new Array(nums.length).fill(0).map(item => ({ maxValue: -Infinity, count: 0 }))
-  table[0] = { maxValue: nums[0], count: 1 }
+  const table: { maxValue: number, count: number }[] = []
+  table.push({ maxValue: nums[0], count: 1 })
 
   let longest = 1
 
@@ -18,7 +18,7 @@ function lengthOfLIS(nums: number[]): number {
       j--
     }
     maxCount++
-    table[i] = { maxValue: nums[i], count: maxCount }
+    table.push({ maxValue: nums[i], count: maxCount })
     longest = Math.max(longest, maxCount)
   }
 
