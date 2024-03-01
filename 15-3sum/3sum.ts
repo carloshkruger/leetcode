@@ -1,14 +1,10 @@
 function threeSum(nums: number[]): number[][] {
-  nums.sort((a,b) => a-b)
+  nums.sort((a, b) => a - b)
 
-  if (nums[0] > 0 || nums[nums.length-1] < 0) {
-    return []
-  }
+  const answer = []
 
-  const result = []
-
-  for (let i = 0; i < nums.length - 2; i++) {
-    if (nums[i] === nums[i-1]) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i-1] === nums[i]) {
       continue
     }
 
@@ -17,9 +13,8 @@ function threeSum(nums: number[]): number[][] {
 
     while (leftIndex < rightIndex) {
       const currentSum = nums[i] + nums[leftIndex] + nums[rightIndex]
-
       if (currentSum === 0) {
-        result.push([nums[i], nums[leftIndex], nums[rightIndex]])
+        answer.push([nums[i], nums[leftIndex], nums[rightIndex]])
 
         while (leftIndex < rightIndex && nums[leftIndex] === nums[leftIndex+1]) {
           leftIndex++
@@ -38,6 +33,5 @@ function threeSum(nums: number[]): number[][] {
     }
   }
 
-  return result
+  return answer
 };
-
