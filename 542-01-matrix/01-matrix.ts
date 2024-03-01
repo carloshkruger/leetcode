@@ -1,39 +1,41 @@
 function updateMatrix(mat: number[][]): number[][] {
-    const answer = []
-    const queue = []
+  if (!mat.length) {
+    return []
+  }
 
-    for (let i = 0; i < mat.length; i++) {
-        const list = []
-        for (let j = 0; j < mat[0].length; j++) {
-            if (mat[i][j] === 0) {
-                list[j] = 0
-                queue.push({ row: i, col: j })
-            } else {
-                list[j] = Infinity
-            }
-        }
-        answer.push(list)
+  const queue = []
+  for (let row = 0; row < mat.length; row++) {
+    for (let col = 0; col < mat[0].length; col++) {
+      if (mat[row][col] === 0) {
+        queue.push([row, col, 0])
+      } else {
+        mat[row][col] = Infinity
+      }
     }
+  }
 
-    const directions = [[-1,0], [1,0], [0,1], [0,-1]]
-    let i = 0
+  const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 
-    while (i <= queue.length - 1) {
-        const { row, col } = queue[i++]
-        const newNeighborValue = answer[row][col] + 1
+  while (queue.length) {
+    let [sourceRow, sourceCol, distance] = queue.shift()
+    distance++
 
-        for (const direction of directions) {
-            const neighborRow = row + direction[0]
-            const neighborCol = col + direction[1]
-            const neighborValue = answer[neighborRow]?.[neighborCol]
-            const isOutOfBounds = neighborValue === undefined
+    for (const direction of directions) {
+      const neighborRow = sourceRow + direction[0]
+      const neighborCol = sourceCol + direction[1]
+      const currentValue = mat[neighborRow]?.[neighborCol]
+      const isOutOfBounds = currentValue === undefined
 
-            if (!isOutOfBounds && newNeighborValue < neighborValue) {
-                answer[neighborRow][neighborCol] = newNeighborValue
-                queue.push({ row: neighborRow, col: neighborCol })
-            }
-        }
+      if (isOutOfBounds || currentValue === 0) {
+        continue
+      }
+
+      if (distance < currentValue) {
+        mat[neighborRow][neighborCol] = distance
+        queue.push([neighborRow, neighborCol, distance])
+      }
     }
+  }
 
-    return answer
+  return mat
 };
