@@ -1,21 +1,20 @@
 function minSubArrayLen(target: number, nums: number[]): number {
-  let minSize = Infinity
-  let leftIndex = 0
+  let windowStart = 0
+  let minLength = Infinity
   let currentSum = 0
 
-  for (let i = 0; i < nums.length; i++) {
-    currentSum += nums[i]
+  for (let windowEnd = 0; windowEnd < nums.length; windowEnd++) {
+    currentSum += nums[windowEnd]
 
     while (currentSum >= target) {
-      minSize = Math.min(minSize, i - leftIndex + 1)
-      currentSum -= nums[leftIndex]
-      leftIndex++
+      minLength = Math.min(minLength, windowEnd - windowStart + 1)
+      currentSum -= nums[windowStart]
+      windowStart++
     }
   }
 
-  if (minSize === Infinity) {
+  if (minLength === Infinity) {
     return 0
   }
-
-  return minSize
+  return minLength
 };
