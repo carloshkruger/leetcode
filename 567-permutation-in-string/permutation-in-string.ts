@@ -1,47 +1,36 @@
 function checkInclusion(s1: string, s2: string): boolean {
-  if (s1.length > s2.length) {
-    return false
+  const s1Count = new Map()
+  for (const char of s1) {
+    s1Count.set(char, (s1Count.get(char) ?? 0) + 1)
   }
 
-  const hashCountS1 = new Map()
-  for (const letter of s1) {
-    hashCountS1.set(letter, (hashCountS1.get(letter) ?? 0) + 1)
-  }
+  let leftIndex = 0
+  const currentCount = new Map()
 
-  const currentHashCount = new Map()
-  let currentLength = 0
-  let startIndex = 0
+  for (let i = 0; i < s2.length; i++) {
+    const char = s2[i]
+    currentCount.set(char, (currentCount.get(char) ?? 0) + 1)
 
-  for (const letter of s2) {
-    currentHashCount.set(letter, (currentHashCount.get(letter) ?? 0) + 1)
-    currentLength++
-
-    if (currentLength >= s1.length) {
-      if (isPermutation(hashCountS1, currentHashCount)) {
+    if (i >= s1.length - 1) {
+      let isPermutation = true
+      for (const [key, count] of s1Count.entries()) {
+        if (!currentCount.has(key) || currentCount.get(key) !== count) {
+          isPermutation = false
+          break;
+        }
+      }
+      if (isPermutation) {
         return true
       }
-      currentHashCount.set(s2[startIndex], currentHashCount.get(s2[startIndex]) - 1)
-      if (currentHashCount.get(s2[startIndex]) === 0) {
-        currentHashCount.delete(s2[startIndex])
+      const newCount = currentCount.get(s2[leftIndex]) - 1
+      if (newCount === 0) {
+        currentCount.delete(s2[leftIndex])
+      } else {
+        currentCount.set(s2[leftIndex], newCount)
       }
-      startIndex++
+      leftIndex++
     }
   }
 
   return false
 };
-
-function isPermutation(
-  hashCount1: Map<string, number>,
-  hashCount2: Map<string, number>
-): boolean {
-  if (hashCount1.size !== hashCount2.size) {
-    return false
-  }
-  for (const [key, value] of hashCount1.entries()) {
-    if (!hashCount2.has(key) || hashCount2.get(key) !== value) {
-      return false
-    }
-  }
-  return true
-}
