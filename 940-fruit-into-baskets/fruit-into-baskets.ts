@@ -1,26 +1,23 @@
 function totalFruit(fruits: number[]): number {
-    const basketCount = new Map()
-    let leftIndex = 0
-    let maxFruits = 0
-    let currentCount = 0
+  const map = new Map()
+  let leftIndex = 0
+  let max = 0
 
-    for (let i = 0; i < fruits.length; i++) {
-        basketCount.set(fruits[i], (basketCount.get(fruits[i]) ?? 0) + 1)
-        currentCount++
+  for (let i = 0; i < fruits.length; i++) {
+    map.set(fruits[i], (map.get(fruits[i]) ?? 0) + 1)
 
-        while (basketCount.size > 2) {
-            currentCount--
-            const newFruitCount = basketCount.get(fruits[leftIndex]) - 1
-            if (newFruitCount === 0) {
-                basketCount.delete(fruits[leftIndex])
-            } else {
-                basketCount.set(fruits[leftIndex], newFruitCount)
-            }
-            leftIndex++
-        }
-
-        maxFruits = Math.max(maxFruits, currentCount)
+    while (map.size > 2) {
+      const newCount = map.get(fruits[leftIndex]) - 1
+      if (newCount === 0) {
+        map.delete(fruits[leftIndex])
+      } else {
+        map.set(fruits[leftIndex], newCount)
+      }
+      leftIndex++
     }
 
-    return maxFruits
+    max = Math.max(max, i - leftIndex + 1)
+  }
+
+  return max
 };
