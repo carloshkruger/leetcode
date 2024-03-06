@@ -1,23 +1,18 @@
 function isHappy(n: number): boolean {
-  const visited = new Set()
-  let current = n
+  const set = new Set()
 
   while (true) {
-    if (visited.has(current)) {
-      return false
-    }
-    visited.add(current)
-
-    let aux = current
-    let sum = 0
-    while (aux > 0) {
-      sum += (aux % 10) ** 2
-      aux = Math.floor(aux / 10)
-    }
-
-    current = sum
-    if (current === 1) {
+    if (n === 1) {
       return true
     }
+    if (set.has(n)) {
+      return false
+    }
+    set.add(n)
+
+    n = n.toString()
+      .split('')
+      .map(item => Number(item) ** 2)
+      .reduce((item, total) => total + item, 0) 
   }
 };
