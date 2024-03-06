@@ -10,9 +10,13 @@ function isHappy(n: number): boolean {
     }
     set.add(n)
 
-    n = n.toString()
-      .split('')
-      .map(item => Number(item) ** 2)
-      .reduce((item, total) => total + item, 0) 
+    let sum = 0
+    let aux = n
+    while (aux > 0) {
+      sum += (aux % 10) ** 2
+      aux = Math.floor(aux / 10)
+    }
+
+    n = sum
   }
 };
