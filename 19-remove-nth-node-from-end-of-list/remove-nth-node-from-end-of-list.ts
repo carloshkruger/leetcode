@@ -18,7 +18,7 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
   let fastPointer = head
   let count = 0
 
-  while (count < n && fastPointer) {
+  while (fastPointer && count < n) {
     fastPointer = fastPointer.next
     count++
   }
@@ -28,7 +28,7 @@ function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
   }
 
   let slowPointer = head
-  while (fastPointer.next) {
+  while (fastPointer && fastPointer.next) {
     slowPointer = slowPointer.next
     fastPointer = fastPointer.next
   }
