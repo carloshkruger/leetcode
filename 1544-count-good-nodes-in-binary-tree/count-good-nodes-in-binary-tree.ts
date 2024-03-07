@@ -13,27 +13,21 @@
  */
 
 function goodNodes(root: TreeNode | null): number {
-  if (!root) {
-    return 0
-  }
+  let count = 0
 
-  let goodNodesCount = 0
-
-  function helper(root: TreeNode | null, maxValue: number) {
+  function helper(root: TreeNode | null, max: number) {
     if (!root) {
       return
     }
-    if (root.val >= maxValue) {
-      goodNodesCount++
+    if (root.val >= max) {
+      count++
     }
-
-    maxValue = Math.max(maxValue, root.val)
-
-    helper(root.left, maxValue)
-    helper(root.right, maxValue)
+    max = Math.max(max, root.val)
+    helper(root.left, max)
+    helper(root.right, max)
   }
 
-  helper(root, root.val)
+  helper(root, -Infinity)
 
-  return goodNodesCount
+  return count
 };
