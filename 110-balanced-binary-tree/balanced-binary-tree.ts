@@ -13,23 +13,23 @@
  */
 
 function isBalanced(root: TreeNode | null): boolean {
-  let isTreeBalanced = true
+  let isUnbalanced = false
 
-  function heightTree(root: TreeNode | null): number {
-    if (!root || !isTreeBalanced) {
+  function helper(root: TreeNode | null): number {
+    if (!root || isUnbalanced) {
       return 0
     }
-    const leftHeight = heightTree(root.left) + 1
-    const rightHeight = heightTree(root.right) + 1
+    const leftHeight = helper(root.left)
+    const rightHeight = helper(root.right)
 
     if (Math.abs(leftHeight - rightHeight) > 1) {
-      isTreeBalanced = false
+      isUnbalanced = true
     }
 
-    return Math.max(leftHeight, rightHeight)
+    return 1 + Math.max(leftHeight, rightHeight)
   }
 
-  heightTree(root)
+  helper(root)
 
-  return isTreeBalanced
+  return !isUnbalanced
 };
