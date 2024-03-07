@@ -13,23 +13,18 @@
  */
 
 function isSubtree(root: TreeNode | null, subRoot: TreeNode | null): boolean {
-    if (!root) {
-        return false
-    }
-    if (isEqual(root, subRoot)) {
-        return true
-    }
-    return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot)
+  if (!root) {
+    return false
+  }
+
+  return (root.val === subRoot.val && isSameTree(root, subRoot))
+    || isSubtree(root.left, subRoot)
+    || isSubtree(root.right, subRoot)
 };
 
-function isEqual(node1: TreeNode | null, node2: TreeNode | null): boolean {
-    if (!node1 && !node2) {
-        return true
-    }
-    if (!node1 || !node2 || node1.val !== node2.val) {
-        return false
-    }
-    return node1.val === node2.val
-        && isEqual(node1.left, node2.left)
-        && isEqual(node1.right, node2.right)
+function isSameTree(node1: TreeNode | null, node2: TreeNode | null): boolean {
+  if (!node1 && !node2) {
+    return true
+  }
+  return node1?.val === node2?.val && isSameTree(node1.left, node2.left) && isSameTree(node1.right, node2.right)
 }
