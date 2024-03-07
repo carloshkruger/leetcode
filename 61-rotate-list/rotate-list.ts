@@ -11,27 +11,33 @@
  */
 
 function rotateRight(head: ListNode | null, k: number): ListNode | null {
-  if (!head || !head.next || k < 1) {
+  if (!head) {
+    return null
+  }
+
+  let length = 0
+  let lastNode = null
+  let current = head
+  while (current) {
+    lastNode = current
+    current = current.next
+    length++
+  }
+
+  k = k % length
+
+  if (k === 0) {
     return head
   }
 
-  let listLength = 1
-  let current = head
-  while (current.next) {
-    current = current.next
-    listLength++
-  }
-
-  k = k % listLength
-  const skip = listLength - k
-  current.next = head
-
-  for (let i = 0; i < skip; i++) {
+  current = head
+  for (let i = 0; i < (length - k - 1); i++) {
     current = current.next
   }
 
-  const temp = current.next
+  const nodeToReturn = current.next
   current.next = null
+  lastNode.next = head
 
-  return temp
+  return nodeToReturn
 };
