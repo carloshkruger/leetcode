@@ -23,6 +23,3 @@ function carPooling(trips: number[][], capacity: number): boolean {
 
   return true
 };
-
-[[9,1,7],[4,2,4],[9,3,4],[7,4,5]]
-22
