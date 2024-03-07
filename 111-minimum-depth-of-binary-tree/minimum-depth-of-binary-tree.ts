@@ -17,24 +17,26 @@ function minDepth(root: TreeNode | null): number {
     return 0
   }
 
+  let count = 0
+
   const queue = [root]
-  let height = 0
   while (queue.length) {
-    height++
-    const levelSize = queue.length
-    for (let i = 0; i < levelSize; i++) {
-      const currentNode = queue.shift()
-      if (!currentNode.left && !currentNode.right) {
-        return height
+    const length = queue.length
+    count++
+
+    for (let i = 0; i < length; i++) {
+      const node = queue.shift()
+      if (!node.left && !node.right) {
+        return count
       }
-      if (currentNode.left) {
-        queue.push(currentNode.left)
+      if (node.left) {
+        queue.push(node.left)
       }
-      if (currentNode.right) {
-        queue.push(currentNode.right)
+      if (node.right) {
+        queue.push(node.right)
       }
     }
   }
 
-  return -1
+  return count
 };
