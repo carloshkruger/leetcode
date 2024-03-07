@@ -1,26 +1,23 @@
 function insert(intervals: number[][], newInterval: number[]): number[][] {
-  intervals.push([newInterval[0], newInterval[1]])
+  const list = []
 
-  if (intervals.length < 2) {
-    return intervals
+  let index = 0
+  while (index < intervals.length && intervals[index][1] < newInterval[0]) {
+    list.push([intervals[index][0], intervals[index][1]])
+    index++
   }
 
-  intervals.sort((a, b) => a[0] - b[0])
-
-  const mergedList = []
-  
-  let start = intervals[0][0]
-  let end = intervals[0][1]
-  for (let i = 1; i < intervals.length; i++) {
-    if (intervals[i][0] > end) {
-      mergedList.push([start, end])
-      start = intervals[i][0]
-      end = intervals[i][1]
-    } else {
-      end = Math.max(end, intervals[i][1])
-    }
+  while (index < intervals.length && intervals[index][0] <= newInterval[1]) {
+    newInterval[0] = Math.min(newInterval[0], intervals[index][0])
+    newInterval[1] = Math.max(newInterval[1], intervals[index][1])
+    index++
   }
-  mergedList.push([start, end])
+  list.push([newInterval[0], newInterval[1]])
 
-  return mergedList
+  while (index < intervals.length) {
+    list.push([intervals[index][0], intervals[index][1]])
+    index++
+  }
+
+  return list
 };
