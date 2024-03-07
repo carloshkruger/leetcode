@@ -6,7 +6,6 @@ function carPooling(trips: number[][], capacity: number): boolean {
   }
 
   let currentTrip = []
-  let j = 0
 
   for (let i = 0; i < trips.length; i++) {
     currentTrip = currentTrip.filter(item => item[2] > trips[i][1])
