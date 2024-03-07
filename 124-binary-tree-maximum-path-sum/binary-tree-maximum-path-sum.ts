@@ -25,7 +25,7 @@ function maxPathSum(root: TreeNode | null): number {
 
     max = Math.max(max, currentSum)
 
-    return Math.max(root.val, Math.max(leftSum + root.val, rightSum + root.val))
+    return Math.max(leftSum + root.val, rightSum + root.val)
   }
 
   helper(root)
