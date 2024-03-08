@@ -1,32 +1,26 @@
 function combinationSum2(candidates: number[], target: number): number[][] {
   candidates.sort((a,b) => a-b)
-  const combinations = []
+  const list = []
 
-  function dfs(current: number[], sum: number, index: number) {
-    if (sum === target) {
-      combinations.push([...current])
+  function helper(currentList: number[], currentSum: number, index: number): void {
+    console.log(currentList)
+    if (currentSum === target) {
+      list.push([...currentList])
       return
     }
-    if (sum > target || index >= candidates.length) {
+    if (currentSum > target || index >= candidates.length) {
       return
     }
-
-    const currentCandidate = candidates[index]
-
-    current.push(currentCandidate)
-    sum += currentCandidate
-    dfs(current, sum, index + 1)
-
-    while (index + 1 < candidates.length && candidates[index] === candidates[index + 1]) {
+    currentList.push(candidates[index])
+    helper(currentList, currentSum + candidates[index], index + 1)
+    currentList.pop()
+    while (index < candidates.length && candidates[index] === candidates[index+1]) {
       index++
     }
-
-    current.pop()
-    sum -= currentCandidate
-    dfs(current, sum, index + 1)
+    helper(currentList, currentSum, index + 1)
   }
 
-  dfs([], 0, 0)
+  helper([], 0, 0)
 
-  return combinations
+  return list
 };
