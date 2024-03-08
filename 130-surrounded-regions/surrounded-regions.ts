@@ -2,48 +2,41 @@
  Do not return anything, modify board in-place instead.
  */
 function solve(board: string[][]): void {
-  const rows = board.length - 1
-  const cols = board[0].length - 1
+  const cache = new Set()
 
-  function dfs(row: number, col: number): void {
-    const isOutOfBounds = row < 0
-      || col < 0
-      || row > rows
-      || col > cols
-    if (isOutOfBounds || board[row][col] !== 'O') {
+  function bfs(row: number, col: number): void {
+    if (row < 0 || col < 0 || row >= board.length || col >= board[0].length) {
       return
     }
+    if (board[row][col] !== 'O') {
+      return
+    }
+    const cacheKey = `${row},${col}`
+    if (cache.has(cacheKey)) {
+      return
+    }
+    cache.add(cacheKey)
 
     board[row][col] = 'T'
 
-    dfs(row+1, col)
-    dfs(row-1, col)
-    dfs(row, col+1)
-    dfs(row, col-1)
+    bfs(row + 1, col)
+    bfs(row - 1, col)
+    bfs(row, col + 1)
+    bfs(row, col - 1)
   }
 
-  // upper and bottom borders
-  for (let col = 0; col <= cols; col++) {
-    if (board[0][col] === 'O') {
-      dfs(0, col)
-    }
-    if (board[rows][col] === 'O') {
-      dfs(rows, col)
-    }
+  for (let col = 0; col < board[0].length; col++) {
+    bfs(0, col)
+    bfs(board.length - 1, col)
   }
 
-  // left and right borders
-  for (let row = 0; row <= rows; row++) {
-    if (board[row][0] === 'O') {
-      dfs(row, 0)
-    }
-    if (board[row][cols] === 'O') {
-      dfs(row, cols)
-    }
+  for (let row = 0; row < board.length; row++) {
+    bfs(row, 0)
+    bfs(row, board[0].length - 1)
   }
 
-  for (let row = 0; row <= rows; row++) {
-    for (let col = 0; col <= cols; col++) {
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[0].length; col++) {
       if (board[row][col] === 'O') {
         board[row][col] = 'X'
       } else if (board[row][col] === 'T') {
