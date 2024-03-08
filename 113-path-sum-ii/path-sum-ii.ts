@@ -13,27 +13,23 @@
  */
 
 function pathSum(root: TreeNode | null, targetSum: number): number[][] {
-  const answer = []
+  const list = []
 
-  function dfs(node: TreeNode | null, currentPath: number[], currentSum: number): void {
-    if (!node) {
+  function dfs(root: TreeNode | null, current: number[], targetSum: number): void {
+    if (!root) {
       return
     }
-
-    currentSum += node.val
-    currentPath.push(node.val)
-
-    if (!node.left && !node.right && currentSum === targetSum) {
-      answer.push([...currentPath])
-    } else {
-        dfs(node.left, currentPath, currentSum)
-        dfs(node.right, currentPath, currentSum)
+    targetSum -= root.val
+    current.push(root.val)
+    if (targetSum === 0 && !root.left && !root.right) {
+      list.push([...current])
+      return
     }
-
-    currentPath.pop()
+    dfs(root.left, [...current], targetSum)
+    dfs(root.right, [...current], targetSum)
   }
 
-  dfs(root, [], 0)
+  dfs(root, [], targetSum)
 
-  return answer
+  return list
 };
