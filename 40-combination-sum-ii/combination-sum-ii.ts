@@ -3,7 +3,6 @@ function combinationSum2(candidates: number[], target: number): number[][] {
   const list = []
 
   function helper(currentList: number[], currentSum: number, index: number): void {
-    console.log(currentList)
     if (currentSum === target) {
       list.push([...currentList])
       return
