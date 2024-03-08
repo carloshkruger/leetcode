@@ -13,19 +13,22 @@
  */
 
 function sumNumbers(root: TreeNode | null): number {
-  function dfs(node: TreeNode | null, currentSum: number): number {
-    if (!node) {
-      return 0
+  let sum = 0
+
+  function dfs(root: TreeNode | null, current: number): void {
+    if (!root) {
+      return
     }
-
-    currentSum = 10 * currentSum + node.val
-
-    if (!node.left && !node.right) {
-      return currentSum
+    current = current * 10 + root.val
+    if (!root.left && !root.right) {
+      sum += current
+      return
     }
-
-    return dfs(node.left, currentSum) + dfs(node.right, currentSum)
+    dfs(root.left, current)
+    dfs(root.right, current)
   }
 
-  return dfs(root, 0)
+  dfs(root, 0)
+
+  return sum
 };
