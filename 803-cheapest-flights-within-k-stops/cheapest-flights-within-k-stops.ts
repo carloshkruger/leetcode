@@ -1,34 +1,32 @@
 function findCheapestPrice(n: number, flights: number[][], src: number, dst: number, k: number): number {
   const graph = buildGraph(flights)
-  const priorityQueue = [[src, 0, -1]]
-  const visited = new Map()
+  const visited = Array(n).fill(Infinity)
+  visited[src] = 0
+  const queue = [[src, 0]]
 
-  while (priorityQueue.length) {
-    priorityQueue.sort((a, b) => a[1] - b[1])
-  
-    const [currentNode, currentPrice, currentStops] = priorityQueue.shift()
+  while (k >= 0 && queue.length) {  
+    const size = queue.length
 
-    if (currentStops > k) {
-      continue
-    }
-    if (currentNode === dst) {
-      return currentPrice
-    }
-    if (!(currentNode in graph)) {
-      continue
-    }
-
-    visited.set(currentNode, currentStops)
-
-    for (const { dst: childNode, price: childPrice } of graph[currentNode]) {
-      if (visited.has(childNode) && visited.get(childNode) <= currentStops + 1) {
-        continue
+    for (let i = 0; i < size; i++) {
+      const [currentNode, currentPrice] = queue.shift()
+      if (currentNode in graph) {
+        for (const { dst, price } of graph[currentNode]) {
+          const newPrice = currentPrice + price
+          if (newPrice < visited[dst]) {
+            visited[dst] = newPrice
+            queue.push([dst, newPrice])
+          }
+        }
       }
-      priorityQueue.push([childNode, currentPrice + childPrice, currentStops + 1])
     }
+
+    k--
   }
 
-  return -1
+  if (visited[dst] === Infinity) {
+    return -1
+  }
+  return visited[dst]
 };
 
 function buildGraph(flights: number[][]): Graph {
