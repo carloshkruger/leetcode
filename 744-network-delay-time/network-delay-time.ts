@@ -1,6 +1,7 @@
 function networkDelayTime(times: number[][], n: number, k: number): number {
   const graph = buildGraph(times)
   const visited = Array(n+1).fill(Infinity)
+  visited[0] = -1
   visited[k] = 0
   
   const queue = [[k, 0]]
@@ -22,8 +23,6 @@ function networkDelayTime(times: number[][], n: number, k: number): number {
       }
     }
   }
-
-  visited.shift()
 
   const max = Math.max(...visited)
   if (max === Infinity) {
