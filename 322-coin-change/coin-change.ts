@@ -1,27 +1,21 @@
 function coinChange(coins: number[], amount: number): number {
-  const cache = {}
+  const table = Array(amount + 1).fill(Infinity)
+  table[0] = 0
 
-  function helper(amount: number): number {
-    if (amount in cache) {
-      return cache[amount]
-    }
-    if (amount === 0) {
-      return 0
-    }
-    if (amount < 0) {
-      return -1
-    }
-  
-    let min = Infinity
-    for (const coin of coins) {
-      const result = helper(amount - coin)
-      if (result !== -1) {
-        min = Math.min(min, result + 1)
+  for (const coin of coins) {
+    for (let i = 0; i <= amount; i++) {
+      const nextPosition = coin + i
+      if (nextPosition > amount) {
+        continue
       }
+      const possibleNewValue = table[i] + 1
+      table[nextPosition] = Math.min(table[nextPosition], possibleNewValue)
     }
-    cache[amount] = min === Infinity ? -1 : min
-    return cache[amount]
   }
 
-  return helper(amount)
+  if (table[amount] === Infinity) {
+    return -1
+  }
+  return table[amount]
 };
+
