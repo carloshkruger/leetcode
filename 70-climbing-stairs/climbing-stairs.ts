@@ -1,9 +1,9 @@
 function climbStairs(n: number): number {
-  const cache = new Map()
+  const cache = {}
 
-  function helper(n: number) {
-    if (cache.has(n)) {
-      return cache.get(n)
+  function helper(n: number): number {
+    if (n in cache) {
+      return cache[n]
     }
     if (n < 0) {
       return 0
@@ -11,9 +11,8 @@ function climbStairs(n: number): number {
     if (n === 0) {
       return 1
     }
-    const result = helper(n-1) + helper(n-2)
-    cache.set(n, result)
-    return result
+    cache[n] = helper(n-1) + helper(n-2)
+    return cache[n]
   }
 
   return helper(n)
