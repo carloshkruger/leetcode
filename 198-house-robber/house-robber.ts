@@ -1,17 +1,22 @@
 function rob(nums: number[]): number {
-  const cache = {}
+  if (nums.length === 0){
+    return 0
+  }
+  if (nums.length === 1){
+    return nums[0]
+  }
+  const table = [...nums]
+  table[0] = nums[0]
+  table[1] = Math.max(nums[0], nums[1])
 
-  function helper(index: number): number {
-    if (index in cache) {
-      return cache[index]
+  for (let i = 0; i < nums.length; i++) {
+    if (i + 2 < nums.length) {
+      table[i + 2] = Math.max(table[i + 2], nums[i+2] + table[i])
     }
-    if (index >= nums.length) {
-      return 0
+    if (i + 3 < nums.length) {
+      table[i + 3] = Math.max(table[i + 3], nums[i+3] + table[i])
     }
-
-    cache[index] = nums[index] + Math.max(helper(index + 2), helper(index + 3))
-    return cache[index]
   }
 
-  return Math.max(helper(0), helper(1))
+  return Math.max(...table)
 };
