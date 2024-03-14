@@ -1,21 +1,21 @@
 function wordBreak(s: string, wordDict: string[]): boolean {
   const cache = {}
 
-  function helper(str: string): boolean {
-    if (str in cache) {
-      return cache[str]
+  function helper(s: string): boolean {
+    if (s in cache) {
+      return cache[s]
     }
-    if (str === '') {
+    if (s === '') {
       return true
     }
     for (const word of wordDict) {
-      if (str.startsWith(word) && helper(str.substring(word.length))) {
-        cache[str] = true
-        return true
+      if (s.startsWith(word) && helper(s.substring(word.length))) {
+        cache[s] = true
+        return cache[s]
       }
     }
-    cache[str] = false
-    return false
+    cache[s] = false
+    return cache[s]
   }
 
   return helper(s)
