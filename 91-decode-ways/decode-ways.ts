@@ -37,7 +37,7 @@ function numDecodings(s: string): number {
     if (s === '') {
       return 1
     }
-    if (!(`${s[0]}` in map)) {
+    if (!(s[0] in map)) {
       return 0
     }
     let twoCharResult = 0
