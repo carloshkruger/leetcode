@@ -13,23 +13,22 @@
  */
 
 function isBalanced(root: TreeNode | null): boolean {
-  let isUnbalanced = false
+  if (!root) {
+    return true
+  }
+  const leftHeight = getHeight(root.left)
+  const rightHeight = getHeight(root.right)
 
-  function helper(root: TreeNode | null): number {
-    if (!root || isUnbalanced) {
-      return 0
-    }
-    const leftHeight = helper(root.left)
-    const rightHeight = helper(root.right)
-
-    if (Math.abs(leftHeight - rightHeight) > 1) {
-      isUnbalanced = true
-    }
-
-    return 1 + Math.max(leftHeight, rightHeight)
+  if (Math.abs(leftHeight - rightHeight) > 1) {
+    return false
   }
 
-  helper(root)
-
-  return !isUnbalanced
+  return isBalanced(root.left) && isBalanced(root.right)
 };
+
+function getHeight(root: TreeNode | null): number {
+  if (!root) {
+    return 0
+  }
+  return 1 + Math.max(getHeight(root.left), getHeight(root.right))
+}
