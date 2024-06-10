@@ -16,11 +16,13 @@ function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: Tree
 	if (!root) {
     return null
   }
-  if (root.val > p.val && root.val > q.val) {
+
+  if (p.val < root.val && q.val < root.val) {
     return lowestCommonAncestor(root.left, p, q)
   }
-  if (root.val < p.val && root.val < q.val) {
+  if (p.val > root.val && q.val > root.val) {
     return lowestCommonAncestor(root.right, p, q)
   }
+
   return root
 };
