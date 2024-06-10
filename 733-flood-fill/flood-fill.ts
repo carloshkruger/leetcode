@@ -1,30 +1,26 @@
 function floodFill(image: number[][], sr: number, sc: number, color: number): number[][] {
-  const targetColor = image[sr][sc]
+  const originalValue = image[sr][sc]
   const visited = new Set()
 
-  function bfs(row: number, col: number): void {
-    if (row < 0 || row >= image.length || col < 0 || col >= image[0].length) {
+  function bfs(row: number, col: number) {
+    if (row < 0 || col < 0 || row >= image.length || col >= image[0].length) {
       return
     }
-    if (image[row][col] !== targetColor) {
+    if (image[row][col] !== originalValue) {
       return
     }
-    if (image[row][col] === color) {
+    const cacheKey = `${row},${col}`
+    if (visited.has(cacheKey)) {
       return
     }
-
-    const key = `${row},${col}`
-    if (visited.has(key)) {
-      return
-    }
-    visited.add(key)
+    visited.add(cacheKey)
 
     image[row][col] = color
 
-    bfs(row + 1, col)
     bfs(row - 1, col)
-    bfs(row, col + 1)
+    bfs(row + 1, col)
     bfs(row, col - 1)
+    bfs(row, col + 1)
   }
 
   bfs(sr, sc)
